@@ -1,0 +1,8 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "strict": true,
+        "jsx": "react",
+        "sourceMap": true
+    }
+}

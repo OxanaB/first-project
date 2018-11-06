@@ -1,0 +1,31 @@
+body{
+    background-color: #3cb371;
+}
+div.box {
+    border: solid 1px;
+    border-radius: 5px;
+    background-color: bisque;
+    padding: 10px; 
+    }
+div.result {
+    float: right;
+    margin-top: auto;
+}
+div {
+    margin: 15px;
+}
+table.datePicker {
+    border: solid 2px black;
+    border-radius: 5px;
+    background-color: azure;
+    padding: 5px;
+}
+th {
+    border: solid 1px grey;
+    border-radius: 3px;
+    padding: 5px;
+}
+td {
+    text-align: center;
+    border: dashed 1px gainsboro;
+}
