@@ -15,3 +15,16 @@ function getRandomElement<T>(array: T[]): T {
     const randomElement = array[r];
     return randomElement;
 }
+
+function copyArray<T>(array: T[]): T[] {
+    return array.slice(0);
+}
+
+function swapInArray<T>(array: T[], oneIndex: number, anotherIndex: number): T[] {
+    const copied = copyArray(array);
+    const oneValue = copied[oneIndex];
+    const anotherValue = copied[anotherIndex];
+    copied[oneIndex] = anotherValue;
+    copied[anotherIndex] = oneValue;
+    return copied;
+}
