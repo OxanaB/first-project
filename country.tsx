@@ -215,9 +215,9 @@ class Neighbourhood extends React.Component<NeighbourhoodProps> {
     }
 
 }
-function sum(numbers: [], i:number): number {
+function summa(numbers: [], i:number): number {
     if (i < numbers.length) {
-        return numbers[i] + sum(numbers, i+1);
+        return numbers[i] + summa(numbers, i+1);
     } else {
         return 0;
     }

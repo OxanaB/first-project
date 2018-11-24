@@ -1,0 +1,1 @@
+C:\Users\bykov\AppData\Local\Programs\Python\Python37-32\python.exe -m http.server 8080

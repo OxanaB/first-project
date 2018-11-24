@@ -21,6 +21,7 @@ function addPerson() {
     if (lastName == "") {
         errors.push("Fill up the LAST NAME");
     }
+}
 
     // const isDateCorrect = /\d{1,2}\.\d{1,2}\.\d{4}/.test(dateOfBirthText);
     // const isDateCorrectAlso = /\d{2}\s[A-Z][a-z]{2}\s\d{4}/.test(dateOfBirthText);
@@ -28,51 +29,6 @@ function addPerson() {
     //     errors.push("Enter date of birth in 'dd.mm.yyyy'");
     //     errors.push("Enter date of birth in 'dd mon yyyy'");
     // }
-
-    const matchedRussianDate = /(\d{1,2})\.(\d{1,2})\.(\d{4})/.exec(dateOfBirthText);
-    if (matchedRussianDate == null) {
-        errors.push("Enter date of birth in 'dd.mm.yyyy'");
-        return;
-    };
-    const [, dayText, monthText, yearText] = matchedRussianDate;
-    const day = parseInt(dayText);
-    const month = parseInt(monthText);
-    const year = parseInt(yearText);
-    const today = new Date();
-
-    today.setFullYear(today.getFullYear() + 1000);
-
-    const birthDay = new Date(year, month - 1, day);
-    const birthDayCopy = new Date(birthDay.getTime());
-
-    birthDayCopy.setFullYear(birthDayCopy.getFullYear() + 1000);
-
-    const totalMs = today.getTime() - birthDayCopy.getTime();
-    const totalHr = Math.floor(totalMs / 1000 / 60 / 60);
-    const totalDays = Math.floor(totalHr / 24);
-    const age = Math.floor(totalMs / 1000 / 60 / 60 / 24 / 365);
-    console.log(day, month, year, age + " years", totalDays + " days", totalHr + " hours");
-
-    if (errors.length > 0) {
-        alert(errors.join(', '));
-    }
-    else {
-        const person: Person = {
-            isFemale: isFemale,
-            firstName: firstName,
-            lastName: lastName,
-            dateOfBirth: birthDay,
-            age: age,
-            isMarried: isMarried,
-            weight: weight,
-            height: height,
-            children: children,
-        };
-        all.push(person);
-    }
-    console.log(all);
-}
-
 
 function checkPersonIsOk(person: Person): boolean {
     const isBachelor = !person.isMarried;
@@ -209,16 +165,16 @@ console.log (lastDayOfTheMonth, lastDayOfTheMonthNumerDay, gottenDay, rightBotto
 //     ["28", "29", "30", "31", "1", "2", "3"]
 // ]
 
-const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-class Day extends React.Component<{}> {
-    render() {
-        const props = this.props;
-        return <table className="datePicker">
-            <tr>{dayOfWeek.map(day => <th>{day}</th>)}</tr>
-            {weeks.map(week => <tr>{week.map(day => <td>{day}</td>)}</tr>)}
-        </table>;
-    }
-}
+// const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+// class Day extends React.Component<{}> {
+//     render() {
+//         const props = this.props;
+//         return <table className="datePicker">
+//             <tr>{dayOfWeek.map(day => <th>{day}</th>)}</tr>
+//             {weeks.map(week => <tr>{week.map(day => <td>{day}</td>)}</tr>)}
+//         </table>;
+//     }
+// }
 
 class Root extends React.Component<{}> {
     renderForm() {
@@ -241,9 +197,7 @@ class Root extends React.Component<{}> {
         </div>;
     }
 
-    render() {
-        return <Day />;
-    }
+  
 }
 
 function start() {
