@@ -7,7 +7,7 @@ interface CalculatorEditProps {
     what: string;
     departureOrArrivalTime: Date;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
-    whenNewIntervalToAdd: (isNewIntervalToAdd: boolean) => void;
+    whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
     whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
     whenIntervalEditingStarted: (intervalKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
@@ -24,14 +24,14 @@ class CalculatorEdit extends React.Component<CalculatorEditProps> {
         const totalSpend = spentHours + " hours " + restMinutes + " minutes";
 
         return <div className="page">
-            <div className="horisontal-nav">
+             
                 <div className="link-to-next-page">
                     <a href="" onClick={e => {
                         e.preventDefault();
                         this.props.whenSwitchMode(false);
                     }}>View mode</a>
                 </div>
-            </div>
+            
             <header><h1>Duration calculator</h1></header>
             <div className="time">
                 <Time time={getTodayDate()} whenTimeIsEntered={(time, what) => {
@@ -45,9 +45,15 @@ class CalculatorEdit extends React.Component<CalculatorEditProps> {
                         ? <IntervalNewAdd {...this.props.intervalNewAdd} />
                         : null
                 }
-                <button onClick={() => {
-                    this.props.whenNewIntervalToAdd(true);
-                }}>Add new</button>
+                {
+                    this.props.isNewIntervalToAdd 
+                        ? <button onClick={() => {
+                            this.props.whenShowNewIntervalInterface(false);
+                        }}>Hide</button>
+                        : <button onClick={() => {
+                            this.props.whenShowNewIntervalInterface(true);
+                        }}>Add new</button>
+                }
                 {this.props.intervals.map(interval => {
                     if (interval.isOnEditing) {
                         return <IntervalEditInterface

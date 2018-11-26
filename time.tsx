@@ -49,33 +49,35 @@ class Time extends React.Component<TimeProps, TimeState> {
                         }
                     }
                 }}
-                // onKeyDown={({ keyCode: 13}) => {
-                //     const time = this.state.timeText.toString();
-                //     if (time.length == 3) {
-                //         const matched = /(\d{1}):?(\d{1,2})/.exec(time);
-                //         if (matched !== null) {
-                //             const [, hoursText, minutesText] = matched;
-                //             const hours = parseInt(hoursText);
-                //             const minutes = parseInt(minutesText);
-                //             const now = new Date();
-                //             now.setHours(hours);
-                //             now.setMinutes(minutes);
-                //             return this.props.whenTimeIsEntered(now, this.state.what);
-                //         } else { return null }
-                //     }
-                //     else {
-                //         const matched = /(\d{1,2}):?(\d{1,2})/.exec(time);
-                //         if (matched !== null) {
-                //             const [, hoursText, minutesText] = matched;
-                //             const hours = parseInt(hoursText);
-                //             const minutes = parseInt(minutesText);
-                //             const now = new Date();
-                //             now.setHours(hours);
-                //             now.setMinutes(minutes);
-                //             return this.props.whenTimeIsEntered(now, this.state.what);
-                //         };
-                //     }
-                // }}
+                onKeyDown={({ keyCode }) => {
+                    if (keyCode === 13) {
+                        const time = this.state.timeText.toString();
+                        if (time.length == 3) {
+                            const matched = /(\d{1}):?(\d{1,2})/.exec(time);
+                            if (matched !== null) {
+                                const [, hoursText, minutesText] = matched;
+                                const hours = parseInt(hoursText);
+                                const minutes = parseInt(minutesText);
+                                const now = new Date();
+                                now.setHours(hours);
+                                now.setMinutes(minutes);
+                                return this.props.whenTimeIsEntered(now, this.state.what);
+                            } else { return null }
+                        }
+                        else {
+                            const matched = /(\d{1,2}):?(\d{1,2})/.exec(time);
+                            if (matched !== null) {
+                                const [, hoursText, minutesText] = matched;
+                                const hours = parseInt(hoursText);
+                                const minutes = parseInt(minutesText);
+                                const now = new Date();
+                                now.setHours(hours);
+                                now.setMinutes(minutes);
+                                return this.props.whenTimeIsEntered(now, this.state.what);
+                            };
+                        }
+                    }
+                }}
             />
             <button className="icon-button done" id="top"
                 onClick={() => {

@@ -22,6 +22,21 @@ class IntervalNewAdd extends React.Component<IntervalNewAddProps> {
                 onChange={event => {
                     this.props.whenTimeChanged(event.currentTarget.value)
                 }}
+                onKeyDown={({keyCode}) => {
+                    if (keyCode === 13) {
+                    const intervalKey = getKeyRandom();
+                    const intervalName = this.props.intName;
+                    const intervalEntered = this.props.intTime;
+                    const intervalTimeNumber = parseInt(intervalEntered);
+                    const interval: Interval = {
+                        key: intervalKey,
+                        intName: intervalName,
+                        intTime: intervalTimeNumber,
+                        isOnEditing: false,
+                    };
+                    this.props.whenNewIntervalAdded(interval)
+                    }
+                }}
             /> minutes
         <button className='icon-button enter'
                 onClick={() => {

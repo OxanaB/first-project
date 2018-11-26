@@ -55,10 +55,10 @@ function TimeCalculator() {
             };
             rerender(newProps);
         },
-        whenNewIntervalToAdd: (isNewIntervalToAdd: boolean) => {
+        whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => {
             const newProps: CalculatorEditProps = {
                 ...oldProps,
-                isNewIntervalToAdd: isNewIntervalToAdd
+                isNewIntervalToAdd: isNewIntervalToAdd,
             };
             rerender(newProps);
         },
