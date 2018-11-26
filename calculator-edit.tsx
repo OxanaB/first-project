@@ -1,15 +1,13 @@
 interface CalculatorEditProps {
-    intName: string;
-    intTime: string;
     intervals: Interval[];
     isInEditMode: boolean;
+    isNewIntervalToAdd: boolean;
+    intervalNewAdd: IntervalNewAddProps;
     time: Date;
     what: string;
     departureOrArrivalTime: Date;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
-    whenNameChanged: (newName: string) => void;
-    whenTimeChanged: (newTime: string) => void;
-    whenNewIntervalAdded: (newInterval: Interval) => void;
+    whenNewIntervalToAdd: (isNewIntervalToAdd: boolean) => void;
     whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
     whenIntervalEditingStarted: (intervalKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
@@ -19,9 +17,6 @@ interface CalculatorEditProps {
 }
 class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
-        const intNameEntered = this.props.intName;
-        const intTimeEntered = this.props.intTime;
-
         const intervalTimes = this.props.intervals.map(interval => { return interval.intTime });
         const totalMinutes = sum(intervalTimes, 0);
         const restMinutes = totalMinutes % 60;
@@ -43,37 +38,16 @@ class CalculatorEdit extends React.Component<CalculatorEditProps> {
                     this.props.whenTimeIsEntered(time, what)
                 }} />
             </div>
-            <div className="interval-add">
-                I will spend <input type="text" className="intup-style-text"
-                    value={intNameEntered}
-                    onChange={event => {
-                        this.props.whenNameChanged(event.currentTarget.value)
-                    }}
-                />
-                <input type="text" className="intup-style-number"
-                    value={intTimeEntered}
-                    onChange={event => {
-                        this.props.whenTimeChanged(event.currentTarget.value)
-                    }}
-                /> minutes
-                <button className='icon-button enter'
-                    onClick={() => {
-                        const intervalKey = getKeyRandom();
-                        const intervalName = this.props.intName;
-                        const intervalEntered = this.props.intTime;
-                        const intervalTimeNumber = parseInt(intervalEntered);
-                        const interval: Interval = {
-                            key: intervalKey,
-                            intName: intervalName,
-                            intTime: intervalTimeNumber,
-                            isOnEditing: false,
-                        };
-                        this.props.whenNewIntervalAdded(interval)
-                    }}></button>
-            </div>
             <div className="menu-edit-interval">
-                <><h2>My task list in time intervals:</h2>
-                <button>Add new</button></>
+                <h2>My task list in time intervals:</h2>
+                {
+                    this.props.isNewIntervalToAdd
+                        ? <IntervalNewAdd {...this.props.intervalNewAdd} />
+                        : null
+                }
+                <button onClick={() => {
+                    this.props.whenNewIntervalToAdd(true);
+                }}>Add new</button>
                 {this.props.intervals.map(interval => {
                     if (interval.isOnEditing) {
                         return <IntervalEditInterface

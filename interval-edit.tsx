@@ -1,17 +1,3 @@
-interface ButtonEditProps {
-    interval: Interval;
-    whenOldIntervalToEdit: (intervalToEditKey: string) => void;
-}
-class ButtonEdit extends React.Component<ButtonEditProps> {
-    render() {
-        const interval = this.props.interval;
-        return <>
-            <button className="button-edit" onClick={() => {
-                this.props.whenOldIntervalToEdit(interval.key);
-            }}></button></>
-    }
-}
-
 interface IntervalEditInterfaceProps {
     interval: Interval;
     whenEditingFinished: (changedInterval: Interval) => void;
@@ -69,5 +55,18 @@ class IntervalEditInterface extends React.Component<IntervalEditInterfaceProps, 
 
             </div>
         </div>
+    }
+}
+interface ButtonEditProps {
+    interval: Interval;
+    whenOldIntervalToEdit: (intervalToEditKey: string) => void;
+}
+class ButtonEdit extends React.Component<ButtonEditProps> {
+    render() {
+        const interval = this.props.interval;
+        return <>
+            <button className="button-edit" onClick={() => {
+                this.props.whenOldIntervalToEdit(interval.key);
+            }}></button></>
     }
 }

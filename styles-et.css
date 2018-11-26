@@ -17,15 +17,15 @@
   }
 .horisontal-nav {
     display: flex;
-    justify-content: space-between;
     border-bottom: 1px solid grey;
     width: 100%;
     z-index: 0;
 }
 .link-to-next-page {
+    align-self: flex-end;
     margin-right: 20px;
     font-size: 14px;
-    
+
     border: 1px solid grey;
     border-radius: 15px 5px 0px 0px;
     border-bottom: 1px solid rgba(227, 240, 255, 0.842);
@@ -34,6 +34,7 @@
     cursor: pointer;
 }
 .link-to-previous-page {
+    align-self: flex-start;
     margin-left: 20px;
     font-size: 14px; 
 

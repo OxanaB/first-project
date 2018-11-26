@@ -2,8 +2,39 @@ function TimeCalculator() {
     const rootElement = document.getElementById('root');
 
     let oldProps: CalculatorEditProps = {
-        intName: 'for driving to work',
-        intTime: '15',
+        isNewIntervalToAdd: false,
+        intervalNewAdd: {
+            intName: 'for driving to work',
+            intTime: '15',    
+            whenNameChanged: (newName) => {
+                const newProps: CalculatorEditProps = {
+                    ...oldProps,
+                    intervalNewAdd: {
+                        ...oldProps.intervalNewAdd,
+                        intName: newName,
+                    }
+                };
+                rerender(newProps);
+            },
+            whenTimeChanged: (newTime) => {
+                const newProps: CalculatorEditProps = {
+                    ...oldProps,
+                    intervalNewAdd: {
+                        ...oldProps.intervalNewAdd,
+                        intTime: newTime,
+                    },
+                };
+                rerender(newProps);
+            },
+            whenNewIntervalAdded: (newInterval) => {
+                const extendedIntervals = oldProps.intervals.concat(newInterval);
+                const newProps: CalculatorEditProps = {
+                    ...oldProps,
+                    intervals: extendedIntervals,
+                };
+                rerender(newProps);
+            },    
+        },
         intervals: intervals,
         isInEditMode: true,
         time: new Date(),
@@ -24,25 +55,10 @@ function TimeCalculator() {
             };
             rerender(newProps);
         },
-        whenNameChanged: (newName) => {
+        whenNewIntervalToAdd: (isNewIntervalToAdd: boolean) => {
             const newProps: CalculatorEditProps = {
                 ...oldProps,
-                intName: newName,
-            };
-            rerender(newProps);
-        },
-        whenTimeChanged: (newTime) => {
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intTime: newTime,
-            };
-            rerender(newProps);
-        },
-        whenNewIntervalAdded: (newInterval) => {
-            const extendedIntervals = oldProps.intervals.concat(newInterval);
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intervals: extendedIntervals,
+                isNewIntervalToAdd: isNewIntervalToAdd
             };
             rerender(newProps);
         },

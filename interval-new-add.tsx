@@ -1,7 +1,6 @@
 interface IntervalNewAddProps {
     intName: string;
     intTime: string;
-    intervals: Interval[];
     whenNameChanged: (newName: string) => void;
     whenTimeChanged: (newTime: string) => void;
     whenNewIntervalAdded: (newInterval: Interval) => void;
@@ -10,7 +9,7 @@ class IntervalNewAdd extends React.Component<IntervalNewAddProps> {
     render() {
         const intNameEntered = this.props.intName;
         const intTimeEntered = this.props.intTime;
-        
+
         return <div className="interval-add">
             I will spend <input type="text" className="intup-style-text"
                 value={intNameEntered}
