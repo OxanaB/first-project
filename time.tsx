@@ -10,16 +10,16 @@ interface TimeState {
 class Time extends React.Component<TimeProps, TimeState> {
     state = {
         timeText: this.props.time.getHours() + ":" + this.props.time.getMinutes(),
-        what: 'Arrival time',
+        what: 'Departure time',
     }
     render() {
         return <>
-            I need to <select id="time" onChange={e => {
+            Time of <select id="time" onChange={e => {
                 this.setState({ what: e.currentTarget.value });
             }}>
-                <option selected value="Departure time">start</option>
-                <option value="Arrival time">finish</option>
-            </select> at <input type="text" className="intup-style-number"
+                <option selected value="Departure time">departure</option>
+                <option value="Arrival time">arrival</option>
+            </select> is <input type="text" className="intup-style-number"
                 value={this.state.timeText}
                 onChange={e => {
                     this.setState({ timeText: e.currentTarget.value });
@@ -48,7 +48,9 @@ class Time extends React.Component<TimeProps, TimeState> {
                             return this.props.whenTimeIsEntered(now, this.state.what);
                         }
                     }
-                }} />
+                }}
+
+            />
             <button className="icon-button done" id="top"
                 onClick={() => {
                     const time = this.state.timeText.toString();

@@ -6,7 +6,7 @@ function TimeCalculator() {
         intTime: '15',
         intervals: intervals,
         time: new Date(),
-        what: 'Arrival time',
+        what: 'Departure time',
         departureOrArrivalTime: new Date(),
         whenTimeIsEntered: (newTime, what) => {
 
