@@ -1,7 +1,8 @@
-interface CalculatorInterfaceProps {
+interface CalculatorEditProps {
     intName: string;
     intTime: string;
     intervals: Interval[];
+    isInEditMode: boolean;
     time: Date;
     what: string;
     departureOrArrivalTime: Date;
@@ -14,8 +15,9 @@ interface CalculatorInterfaceProps {
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
     whenButtonUpIsPushed: (intervalStringKey: string) => void;
     whenButtonDownIsPushed: (intervalStringKey: string) => void;
+    whenSwitchMode: (isInEditMode: boolean) => void;
 }
-class CalculatorInterface extends React.Component<CalculatorInterfaceProps> {
+class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
         const intNameEntered = this.props.intName;
         const intTimeEntered = this.props.intTime;
@@ -27,13 +29,20 @@ class CalculatorInterface extends React.Component<CalculatorInterfaceProps> {
         const totalSpend = spentHours + " hours " + restMinutes + " minutes";
 
         return <div className="page">
+            <div className="horisontal-nav">
+                <div className="link-to-next-page">
+                    <a href="" onClick={e => {
+                        e.preventDefault();
+                        this.props.whenSwitchMode(false);
+                    }}>View mode</a>
+                </div>
+            </div>
             <header><h1>Duration calculator</h1></header>
             <div className="time">
                 <Time time={getTodayDate()} whenTimeIsEntered={(time, what) => {
                     this.props.whenTimeIsEntered(time, what)
                 }} />
             </div>
-
             <div className="interval-add">
                 I will spend <input type="text" className="intup-style-text"
                     value={intNameEntered}
@@ -63,7 +72,8 @@ class CalculatorInterface extends React.Component<CalculatorInterfaceProps> {
                     }}></button>
             </div>
             <div className="menu-edit-interval">
-                <h2>My task list in time intervals:</h2>
+                <><h2>My task list in time intervals:</h2>
+                <button>Add new</button></>
                 {this.props.intervals.map(interval => {
                     if (interval.isOnEditing) {
                         return <IntervalEditInterface
@@ -93,11 +103,6 @@ class CalculatorInterface extends React.Component<CalculatorInterfaceProps> {
                         </div>
                     }
                 })}</div>
-            <div className="time-line">
-                <TimeLine time={this.props.time}
-                    intervals={this.props.intervals}
-                />
-            </div>
             <div className="footer">
                 {this.props.what === 'Departure time' ? 'I will finish / arrive at' : 'I need to get start at'} <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
                 <p>and will spend {totalSpend}</p>

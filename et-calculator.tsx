@@ -1,10 +1,11 @@
 function TimeCalculator() {
     const rootElement = document.getElementById('root');
 
-    let oldProps: CalculatorInterfaceProps = {
+    let oldProps: CalculatorEditProps = {
         intName: 'for driving to work',
         intTime: '15',
         intervals: intervals,
+        isInEditMode: true,
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
@@ -15,7 +16,7 @@ function TimeCalculator() {
 
             const departureOrArrivalTime = toCountTime(what, newTime, totalMinutes);
 
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 time: newTime,
                 what: what,
@@ -24,14 +25,14 @@ function TimeCalculator() {
             rerender(newProps);
         },
         whenNameChanged: (newName) => {
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intName: newName,
             };
             rerender(newProps);
         },
         whenTimeChanged: (newTime) => {
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intTime: newTime,
             };
@@ -39,7 +40,7 @@ function TimeCalculator() {
         },
         whenNewIntervalAdded: (newInterval) => {
             const extendedIntervals = oldProps.intervals.concat(newInterval);
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: extendedIntervals,
             };
@@ -49,7 +50,7 @@ function TimeCalculator() {
             const filteredIntervals = oldProps.intervals.filter(
                 otherInterval => otherInterval.key !== oldIntervalKey
             );
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: filteredIntervals,
             }
@@ -65,7 +66,7 @@ function TimeCalculator() {
                     }
                 }
             );
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: editedIntervals,
             }
@@ -81,7 +82,7 @@ function TimeCalculator() {
                     }
                 }
             );
-            const newProps: CalculatorInterfaceProps = {
+            const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: editedIntervals,
             };
@@ -91,7 +92,7 @@ function TimeCalculator() {
             const index = oldProps.intervals.findIndex(interval => interval.key === intervalKey);
             if (index < intervals.length - 1) {
                 const editedIntervals = swapInArray(oldProps.intervals, index, index + 1);
-                const newProps: CalculatorInterfaceProps = {
+                const newProps: CalculatorEditProps = {
                     ...oldProps,
                     intervals: editedIntervals,
                 };
@@ -104,7 +105,7 @@ function TimeCalculator() {
             const index = oldProps.intervals.findIndex(interval => interval.key === intervalKey);
             if (index !== 0) {
                 const editedIntervals = swapInArray(oldProps.intervals, index, index - 1);
-                const newProps: CalculatorInterfaceProps = {
+                const newProps: CalculatorEditProps = {
                     ...oldProps,
                     intervals: editedIntervals,
                 };
@@ -113,16 +114,25 @@ function TimeCalculator() {
             else {
                 null;
             }
+        },
+        whenSwitchMode: (isInEditMode: boolean) => {
+            const newProps: CalculatorEditProps = {
+                ...oldProps,
+                isInEditMode: isInEditMode,
+            };
+            rerender(newProps);
         }
     };
 
     rerender(oldProps);
 
-    function rerender(newProps: CalculatorInterfaceProps): void {
+    function rerender(newProps: CalculatorEditProps): void {
         console.log(newProps);
         oldProps = newProps;
         ReactDOM.render(
-            <CalculatorInterface {...newProps} />,
+            oldProps.isInEditMode
+                ? <CalculatorEdit {...newProps} />
+                : <CalculatorView intervals={oldProps.intervals} time={oldProps.time} whenSwitchMode={oldProps.whenSwitchMode} />,
             rootElement
         );
     }
