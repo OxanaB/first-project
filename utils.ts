@@ -19,7 +19,7 @@ function getRandomX11Color() {
     const colorRandom = getRandomElement(colors);
     return colorRandom;
 }
-const symbolForHexColor = ['a', 'b', 'c', 'd', 'e', 'f', '0','1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const symbolForHexColor = ['a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 function getRandomHexColor() {
     const a = getRandomElement(symbolForHexColor);
@@ -50,7 +50,7 @@ function sum(numbers: number[], i: number): number {
     }
 }
 
-function getTodayDate() { 
+function getTodayDate() {
     return new Date();
 }
 
@@ -76,5 +76,13 @@ function formatDateTime(datetime: Date): string {
     return datetime.getHours().toString().padStart(2, '0') + ':' + datetime.getMinutes().toString().padStart(2, '0');
 }
 
-
+function map<In, Out>(value: In[], instead: (value:In) => Out) {
+    const resulut:  Out[] = [];
+    for (let index = 0; index < value.length; index++) {
+        const inValue = value[index];
+        const outValue = instead(inValue);
+        resulut.push(outValue);
+    }
+    return resulut;
+}
 
