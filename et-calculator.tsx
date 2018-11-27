@@ -42,7 +42,7 @@ function TimeCalculator() {
         departureOrArrivalTime: new Date(),
         whenTimeIsEntered: (newTime, what) => {
 
-            const intervalTimes = oldProps.intervals.map(interval => { return interval.intTime });
+            const intervalTimes = map(oldProps.intervals, interval => { return interval.intTime });
             const totalMinutes = sum(intervalTimes, 0);
 
             const departureOrArrivalTime = toCountTime(what, newTime, totalMinutes);
@@ -73,7 +73,7 @@ function TimeCalculator() {
             rerender(newProps);
         },
         whenIntervalEditingStarted: (intervalKey) => {
-            const editedIntervals = oldProps.intervals.map(
+            const editedIntervals = map(oldProps.intervals,
                 otherInterval => {
                     if (otherInterval.key === intervalKey) {
                         return { ...otherInterval, isOnEditing: true };
@@ -89,7 +89,7 @@ function TimeCalculator() {
             rerender(newProps);
         },
         whenIntervalEditingFinished: (newInterval) => {
-            const editedIntervals = oldProps.intervals.map(
+            const editedIntervals = map(oldProps.intervals,
                 oldInterval => {
                     if (oldInterval.key === newInterval.key) {
                         return newInterval;

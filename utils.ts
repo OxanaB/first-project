@@ -71,7 +71,6 @@ function swapInArray<T>(array: T[], oneIndex: number, anotherIndex: number): T[]
     return copied;
 }
 
-
 function formatDateTime(datetime: Date): string {
     return datetime.getHours().toString().padStart(2, '0') + ':' + datetime.getMinutes().toString().padStart(2, '0');
 }

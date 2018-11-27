@@ -16,7 +16,7 @@ class TimeLine extends React.Component<TimeLineProps, TimeLineState> {
         const now = (ms - this.props.time.getTime()) / 60000;
         return <>
             <svg xmlns="http://www.w3.org/2000/svg" width="350" height="150" >
-                {this.props.intervals.map((intervals) => {
+                {map(this.props.intervals, (intervals) => {
                     const y = lastY;
                     const min = intervals.intTime;
                     lastY = lastY + min;

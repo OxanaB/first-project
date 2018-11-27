@@ -17,7 +17,7 @@ interface CalculatorEditProps {
 }
 class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
-        const intervalTimes = this.props.intervals.map(interval => { return interval.intTime });
+        const intervalTimes = map(this.props.intervals, interval => { return interval.intTime });
         const totalMinutes = sum(intervalTimes, 0);
         const restMinutes = totalMinutes % 60;
         const spentHours = (totalMinutes - restMinutes) / 60;
@@ -54,7 +54,7 @@ class CalculatorEdit extends React.Component<CalculatorEditProps> {
                             this.props.whenShowNewIntervalInterface(true);
                         }}>Add new</button>
                 }
-                {this.props.intervals.map(interval => {
+                {map(this.props.intervals, interval => {
                     if (interval.isOnEditing) {
                         return <IntervalEditInterface
                             interval={interval}
