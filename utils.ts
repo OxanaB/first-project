@@ -1,4 +1,3 @@
-
 function getFirstElement<T>(array: T[]): T {
     const element1 = array[0];
     return element1;

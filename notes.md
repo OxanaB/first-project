@@ -18,6 +18,13 @@
 
 https://regex101.com/ проверяет регулярные выражения
 
+```
+так добавляется библиотека jQuery в HTML файл (перед скрипт-файлом)
+ <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+```
 
 #Операторы
 +перед элементом преобразовывыет его в число 
