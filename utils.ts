@@ -42,9 +42,9 @@ function getKeyRandom() {
     const key = letter1 + letter2 + letter3;
     return key;
 }
-function sum(numbers: number[], i: number): number {
-    if (i < numbers.length) {
-        return numbers[i] + sum(numbers, i + 1);
+function sum(numbers: number[], index: number): number {
+    if (index < numbers.length) {
+        return numbers[index] + sum(numbers, index + 1);
     } else {
         return 0;
     }
@@ -94,3 +94,11 @@ function filter<T>(all: T[], shouldKeep: (val:T) => boolean): T[] {
         };         
     } return result;
 }
+
+function fold<T,R>(vals: T[], result:R, take:(result:R, val:T) => R):R {
+    for (let index=0; index< vals.length; index++) {
+        const val = vals[index];
+        result = take(result, val);
+    } return result;
+}
+// const summa = fold(intervalTimes, 0, (suma, intervalTimes) => suma+intervalTimes); 
