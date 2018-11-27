@@ -25,6 +25,14 @@ https://regex101.com/ проверяет регулярные выражения
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 ```
+function summa thought recursion:
+function sum(numbers: number[], index: number): number {
+    if (index < numbers.length) {
+        return numbers[index] + sum(numbers, index + 1);
+    } else {
+        return 0;
+    }
+}
 
 #Операторы
 +перед элементом преобразовывыет его в число 
