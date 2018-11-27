@@ -85,3 +85,12 @@ function map<In, Out>(value: In[], instead: (value:In) => Out) {
     return resulut;
 }
 
+function filter<T>(all: T[], shouldKeep: (val:T) => boolean): T[] {
+    const result: T[] = [];
+    for (let index=0; index < all.length; index++) {
+        const val = all[index]
+        if (shouldKeep(val) ) {
+            result.push(val)
+        };         
+    } return result;
+}

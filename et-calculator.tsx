@@ -63,7 +63,7 @@ function TimeCalculator() {
             rerender(newProps);
         },
         whenOldIntervalToDelete: (oldIntervalKey) => {
-            const filteredIntervals = oldProps.intervals.filter(
+            const filteredIntervals = filter(oldProps.intervals,
                 otherInterval => otherInterval.key !== oldIntervalKey
             );
             const newProps: CalculatorEditProps = {
