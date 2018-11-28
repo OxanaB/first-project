@@ -42,8 +42,3 @@ export const intervals: Interval[] = [
         isOnEditing: false,
     },
 ] 
-
-export const colors = [
-    "#66B032",
-    "#B2D732"
-]

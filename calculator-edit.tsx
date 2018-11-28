@@ -91,7 +91,8 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                     }
                 })}</div>
             <div className="footer">
-                {this.props.what === 'Departure time' ? 'I will finish / arrive at' : 'I need to get start at'} <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
+                {this.props.what === 'Departure time' ? 'I will finish / arrive at' : 'I need to get start at'}
+                <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
                 <p>and will spend {totalSpend}</p>
             </div>
         </div>

@@ -1,4 +1,3 @@
-import { colors } from "./et-arrays";
 
 export function getFirstElement<T>(array: T[]): T {
     const element1 = array[0];
@@ -16,7 +15,10 @@ export function getRandomElement<T>(array: T[]): T {
     const randomElement = array[r];
     return randomElement;
 }
-
+export const colors = [
+        "#66B032",
+        "#B2D732"
+    ]
 export function getRandomX11Color() {
     const colorRandom = getRandomElement(colors);
     return colorRandom;

@@ -16,10 +16,10 @@ export class Time extends React.Component<TimeProps, TimeState> {
     }
     render() {
         return <>
-            Time of <select id="time" onChange={e => {
+            Time of <select id="time" defaultValue="Departure time" onChange={e => {
                 this.setState({ what: e.currentTarget.value });
             }}>
-                <option selected value="Departure time">departure</option>
+                <option value="Departure time">departure</option>
                 <option value="Arrival time">arrival</option>
             </select> is <input type="text" className="intup-style-number"
                 value={this.state.timeText}

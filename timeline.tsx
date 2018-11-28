@@ -1,6 +1,6 @@
-import { map, getTodayDate, formatDateTime } from "./utils";
+import { map, getTodayDate, formatDateTime, colors } from "./utils";
 import * as React from "react";
-import { Interval, colors } from "./et-arrays";
+import { Interval } from "./et-arrays";
 
 export interface TimeLineProps {
     intervals: Interval[];
