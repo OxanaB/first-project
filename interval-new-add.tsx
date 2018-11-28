@@ -1,11 +1,15 @@
-interface IntervalNewAddProps {
+import { getKeyRandom } from "./utils";
+import * as React from "react";
+import { Interval } from "./et-arrays";
+
+export interface IntervalNewAddProps {
     intName: string;
     intTime: string;
     whenNameChanged: (newName: string) => void;
     whenTimeChanged: (newTime: string) => void;
     whenNewIntervalAdded: (newInterval: Interval) => void;
 }
-class IntervalNewAdd extends React.Component<IntervalNewAddProps> {
+export class IntervalNewAdd extends React.Component<IntervalNewAddProps> {
     render() {
         const intNameEntered = this.props.intName;
         const intTimeEntered = this.props.intTime;

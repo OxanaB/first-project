@@ -1,11 +1,10 @@
-
-interface Interval {
+export interface Interval {
     key: string;
     intName: string;
     intTime: number;
     isOnEditing: boolean;
 }
-const intervals: Interval[] = [
+export const intervals: Interval[] = [
     {
         key: "abc",
         intName: "to get to work",
@@ -44,7 +43,7 @@ const intervals: Interval[] = [
     },
 ] 
 
-const colors = [
+export const colors = [
     "#66B032",
     "#B2D732"
 ]

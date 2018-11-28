@@ -1,9 +1,13 @@
-interface CalculatorViewProps {
+import * as React from "react";
+import { TimeLine } from "./timeline";
+import { Interval } from "./et-arrays";
+
+export interface CalculatorViewProps {
     intervals: Interval[];
     time: Date;
     whenSwitchMode: (isInEditMode: boolean) => void;
 }
-class CalculatorView extends React.Component<CalculatorViewProps> {
+export class CalculatorView extends React.Component<CalculatorViewProps> {
     render() {
         return <>
             <div className="page">

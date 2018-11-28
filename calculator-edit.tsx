@@ -1,4 +1,11 @@
-interface CalculatorEditProps {
+import * as React from "react";
+import { map, sum, getTodayDate, formatDateTime } from "./utils";
+import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
+import { IntervalEditInterface, ButtonEdit } from "./interval-edit";
+import { Interval } from "./et-arrays";
+import { Time } from "./time";
+
+export interface CalculatorEditProps {
     intervals: Interval[];
     isInEditMode: boolean;
     isNewIntervalToAdd: boolean;
@@ -15,10 +22,10 @@ interface CalculatorEditProps {
     whenButtonDownIsPushed: (intervalStringKey: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
 }
-class CalculatorEdit extends React.Component<CalculatorEditProps> {
+export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
         const intervalTimes = map(this.props.intervals, interval => { return interval.intTime });
-        const totalMinutes = sum(intervalTimes, 0);
+        const totalMinutes = sum(intervalTimes);
         const restMinutes = totalMinutes % 60;
         const spentHours = (totalMinutes - restMinutes) / 60;
         const totalSpend = spentHours + " hours " + restMinutes + " minutes";

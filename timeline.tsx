@@ -1,11 +1,13 @@
-interface TimeLineProps {
+import { map, getTodayDate, formatDateTime } from "./utils";
+import * as React from "react";
+import { Interval, colors } from "./et-arrays";
+
+export interface TimeLineProps {
     intervals: Interval[];
     time: Date;
 }
-interface TimeLineState {
 
-}
-class TimeLine extends React.Component<TimeLineProps, TimeLineState> {
+export class TimeLine extends React.Component<TimeLineProps> {
     render() {
         let lastY = 0;
         let lastTime = this.props.time.getTime();

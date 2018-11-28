@@ -1,13 +1,15 @@
-interface TimeProps {
+import * as React from "react";
+
+export interface TimeProps {
     time: Date;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
 }
-interface TimeState {
+export interface TimeState {
     timeText: string;
     what: string;
 
 }
-class Time extends React.Component<TimeProps, TimeState> {
+export class Time extends React.Component<TimeProps, TimeState> {
     state = {
         timeText: this.props.time.getHours() + ":" + this.props.time.getMinutes(),
         what: 'Departure time',

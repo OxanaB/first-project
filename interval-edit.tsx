@@ -1,15 +1,18 @@
-interface IntervalEditInterfaceProps {
+import * as React from "react";
+import { Interval } from "./et-arrays";
+
+export interface IntervalEditInterfaceProps {
     interval: Interval;
     whenEditingFinished: (changedInterval: Interval) => void;
     whenIntervalToGoUp: (intervalToUpKey: string) => void;
     whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
 }
-interface IntervalEditInterfaceState {
+export interface IntervalEditInterfaceState {
     intNameChanged: string;
     intTimeChanged: string;
 }
-class IntervalEditInterface extends React.Component<IntervalEditInterfaceProps, IntervalEditInterfaceState> {
+export class IntervalEditInterface extends React.Component<IntervalEditInterfaceProps, IntervalEditInterfaceState> {
     state = {
         intNameChanged: this.props.interval.intName,
         intTimeChanged: this.props.interval.intTime.toString(),
@@ -87,11 +90,11 @@ class IntervalEditInterface extends React.Component<IntervalEditInterfaceProps, 
         </div>
     }
 }
-interface ButtonEditProps {
+export interface ButtonEditProps {
     interval: Interval;
     whenOldIntervalToEdit: (intervalToEditKey: string) => void;
 }
-class ButtonEdit extends React.Component<ButtonEditProps> {
+export class ButtonEdit extends React.Component<ButtonEditProps> {
     render() {
         const interval = this.props.interval;
         return <>

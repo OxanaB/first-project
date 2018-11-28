@@ -1,3 +1,11 @@
+import { CalculatorEditProps, CalculatorEdit } from "./calculator-edit";
+import { map, sum, filter, swapInArray } from "./utils";
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+import { CalculatorView } from "./calculator-view";
+import { intervals } from "./et-arrays";
+
+
 function TimeCalculator() {
     const rootElement = document.getElementById('root');
 
@@ -43,7 +51,7 @@ function TimeCalculator() {
         whenTimeIsEntered: (newTime, what) => {
 
             const intervalTimes = map(oldProps.intervals, interval => { return interval.intTime });
-            const totalMinutes = sum(intervalTimes, 0);
+            const totalMinutes = sum(intervalTimes);
 
             const departureOrArrivalTime = toCountTime(what, newTime, totalMinutes);
 
@@ -153,6 +161,7 @@ function TimeCalculator() {
         );
     }
 }
+
 window.onload = TimeCalculator;
 
 
