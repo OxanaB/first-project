@@ -4,12 +4,14 @@ import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
 import { IntervalEditInterface, ButtonEdit } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
+import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
 
 export interface CalculatorEditProps {
     intervals: Interval[];
     isInEditMode: boolean;
     isNewIntervalToAdd: boolean;
     intervalNewAdd: IntervalNewAddProps;
+    isSignedInStatus: SignInOutButtonsProps;
     time: Date;
     what: string;
     departureOrArrivalTime: Date;
@@ -31,18 +33,27 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
         const totalSpend = spentHours + " hours " + restMinutes + " minutes";
 
         return <div className="page">
-             
-                <div className="link-to-next-page">
-                    <a href="" onClick={e => {
-                        e.preventDefault();
-                        this.props.whenSwitchMode(false);
-                    }}>View mode</a>
-                </div>
-            
+            <div className='authentication'>
+                <SignInOutButtons isSignedIn={this.props.isSignedInStatus.isSignedIn}
+                    whenToSignIn={() => {
+                        this.props.isSignedInStatus.whenToSignIn();
+                    }}
+                    whenToSignOut={() => {
+                        this.props.isSignedInStatus.whenToSignOut();
+                    }}
+                />
+            </div>
+            <div className="link-to-next-page">
+                <a href="" onClick={e => {
+                    e.preventDefault();
+                    this.props.whenSwitchMode(false);
+                }}>View mode</a>
+            </div>
+
             <header><h1>Duration calculator</h1></header>
             <div className="time">
                 <Time time={getTodayDate()} whenTimeIsEntered={(time, what) => {
-                    this.props.whenTimeIsEntered(time, what)
+                    this.props.whenTimeIsEntered(time, what);
                 }} />
             </div>
             <div className="menu-edit-interval">
@@ -53,7 +64,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                         : null
                 }
                 {
-                    this.props.isNewIntervalToAdd 
+                    this.props.isNewIntervalToAdd
                         ? <button onClick={() => {
                             this.props.whenShowNewIntervalInterface(false);
                         }}>Hide</button>

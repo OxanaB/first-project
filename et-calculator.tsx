@@ -1,3 +1,5 @@
+/// <amd-dependency path="async!https://apis.google.com/js/api.js!onload" />
+
 import { CalculatorEditProps, CalculatorEdit } from "./calculator-edit";
 import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
@@ -5,15 +7,25 @@ import * as React from "react";
 import { CalculatorView } from "./calculator-view";
 import { intervals } from "./et-arrays";
 
+declare const gapi: any;
+console.log(gapi);
 
 function TimeCalculator() {
-    const rootElement = document.getElementById('root');
 
     let oldProps: CalculatorEditProps = {
         isNewIntervalToAdd: false,
+        isSignedInStatus: {
+            isSignedIn: false,
+            whenToSignIn: () => {
+
+            },
+            whenToSignOut: () => {
+
+            },
+        },
         intervalNewAdd: {
             intName: 'for driving to work',
-            intTime: '15',    
+            intTime: '15',
             whenNameChanged: (newName) => {
                 const newProps: CalculatorEditProps = {
                     ...oldProps,
@@ -41,7 +53,7 @@ function TimeCalculator() {
                     intervals: extendedIntervals,
                 };
                 rerender(newProps);
-            },    
+            },
         },
         intervals: intervals,
         isInEditMode: true,
@@ -151,7 +163,7 @@ function TimeCalculator() {
     rerender(oldProps);
 
     function rerender(newProps: CalculatorEditProps): void {
-        console.log(newProps);
+        const rootElement = document.getElementById('root');
         oldProps = newProps;
         ReactDOM.render(
             oldProps.isInEditMode
