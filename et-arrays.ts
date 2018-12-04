@@ -4,7 +4,7 @@ export interface Interval {
     intTime: number;
     isOnEditing: boolean;
 }
-export const intervals: Interval[] = [
+export const intervals1111: Interval[] = [
     {
         key: "abc",
         intName: "to get to work",

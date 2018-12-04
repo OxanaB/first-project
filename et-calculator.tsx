@@ -5,7 +5,7 @@ import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
 import * as React from "react";
 import { CalculatorView } from "./calculator-view";
-import { intervals } from "./et-arrays";
+import { intervals, Interval } from "./et-arrays";
 
 var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
 var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
@@ -21,30 +21,60 @@ gapi.load('client:auth2', () => {
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
     })
-    .then(function () {
-        // Listen for sign-in state changes.
-        // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        .then(function () {
+            // Listen for sign-in state changes.
+            // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-        const isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
-        if (isSignedIn) {
-            gapi.client.drive.files.list({
-                'pageSize': 10,
-                'fields': "nextPageToken, files(id, name)"
-              }).then(function(response: any) {
-                  
-                var files = response.result.files;
-                console.log(files);
-                TimeCalculator(isSignedIn);
-              });
-        } else {
-            alert('Need to sign in to Google.');
-        }
-        
-        
-    });
+            const isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
+            if (isSignedIn) {
+                whenSignedIntoGoogleForSure();
+            } else {
+                gapi.auth2.getAuthInstance().isSignedIn.listen(() => {
+                    whenSignedIntoGoogleForSure();
+                });
+                gapi.auth2.getAuthInstance().signIn();
+            }
+
+
+        });
 });
 
-function TimeCalculator(isSignedIn: boolean) {
+function downloadFile(downloadUrl: string, callback: (response: any) => void): void {
+    if (downloadUrl) {
+        var accessToken = gapi.auth.getToken().access_token;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', downloadUrl);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+        xhr.onload = function () {
+            callback(xhr.responseText);
+        };
+        xhr.onerror = function () {
+            callback(null);
+        };
+        xhr.send();
+    } else {
+        callback(null);
+    }
+}
+
+function whenSignedIntoGoogleForSure() {
+    const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
+    downloadFile(downloadUrl, response => {
+        const intervals = JSON.parse(response);
+        TimeCalculator(true, intervals);
+    });
+    
+
+    // gapi.client.drive.files.export({
+    //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
+    // }).then(function (response: any) {
+    //     var result = response.result;
+    //     console.log(result);
+    //     
+    // });
+}
+
+function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
 
     let oldProps: CalculatorEditProps = {
         isNewIntervalToAdd: false,
