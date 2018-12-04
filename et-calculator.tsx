@@ -7,15 +7,49 @@ import * as React from "react";
 import { CalculatorView } from "./calculator-view";
 import { intervals } from "./et-arrays";
 
-declare const gapi: any;
-console.log(gapi);
+var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
+var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
-function TimeCalculator() {
+declare const gapi: any;
+gapi.load('client:auth2', () => {
+
+    gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+    })
+    .then(function () {
+        // Listen for sign-in state changes.
+        // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        const isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
+        if (isSignedIn) {
+            gapi.client.drive.files.list({
+                'pageSize': 10,
+                'fields': "nextPageToken, files(id, name)"
+              }).then(function(response: any) {
+                  
+                var files = response.result.files;
+                console.log(files);
+                TimeCalculator(isSignedIn);
+              });
+        } else {
+            alert('Need to sign in to Google.');
+        }
+        
+        
+    });
+});
+
+function TimeCalculator(isSignedIn: boolean) {
 
     let oldProps: CalculatorEditProps = {
         isNewIntervalToAdd: false,
         isSignedInStatus: {
-            isSignedIn: false,
+            isSignedIn: isSignedIn,
             whenToSignIn: () => {
 
             },
@@ -173,10 +207,6 @@ function TimeCalculator() {
         );
     }
 }
-
-window.onload = TimeCalculator;
-
-
 
 function toCountTime(what: string, time: Date, totalMinutes: number): Date {
     if (what == "Arrival time") {
