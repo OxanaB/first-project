@@ -19,6 +19,7 @@
     display: flex;
     align-self: flex-start;
     background-color: #fff;
+    margin-left: 20px;
 }
 .link-to-next-page {
     align-self: flex-end;
