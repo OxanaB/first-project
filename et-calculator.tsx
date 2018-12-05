@@ -5,7 +5,7 @@ import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
 import * as React from "react";
 import { CalculatorView } from "./calculator-view";
-import { intervals, Interval } from "./et-arrays";
+import { Interval } from "./et-arrays";
 
 var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
 var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
@@ -39,31 +39,35 @@ gapi.load('client:auth2', () => {
         });
 });
 
-function downloadFile(downloadUrl: string, callback: (response: any) => void): void {
-    if (downloadUrl) {
+function downloadFile(
+    downloadUrl: string, /* callback: (response: any) => void*/
+): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
         var accessToken = gapi.auth.getToken().access_token;
         var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            resolve(xhr.responseText);
+        };
+        xhr.onerror = function (error) {
+            reject(error);
+        };
         xhr.open('GET', downloadUrl);
         xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-        xhr.onload = function () {
-            callback(xhr.responseText);
-        };
-        xhr.onerror = function () {
-            callback(null);
-        };
         xhr.send();
-    } else {
-        callback(null);
-    }
+    });
 }
 
-function whenSignedIntoGoogleForSure() {
+async function whenSignedIntoGoogleForSure() {
     const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
-    downloadFile(downloadUrl, response => {
-        const intervals = JSON.parse(response);
-        TimeCalculator(true, intervals);
-    });
-    
+    // downloadFile(downloadUrl).then(response => {
+    //     const intervals = JSON.parse(response);
+    //     TimeCalculator(true, intervals);
+    // });
+
+    const response = await downloadFile(downloadUrl);
+    const intervals = JSON.parse(response);
+    TimeCalculator(true, intervals);
+
 
     // gapi.client.drive.files.export({
     //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
