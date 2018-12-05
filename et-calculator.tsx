@@ -1,18 +1,17 @@
-/// <amd-dependency path="async!https://apis.google.com/js/api.js!onload" />
-
 import { CalculatorEditProps, CalculatorEdit } from "./calculator-edit";
 import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
 import * as React from "react";
 import { CalculatorView } from "./calculator-view";
 import { Interval } from "./et-arrays";
+import { downloadFile } from "./google-drive-utils";
+import { gapi } from "./gapi";
 
 var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
 var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
-declare const gapi: any;
 gapi.load('client:auth2', () => {
 
     gapi.client.init({
@@ -38,24 +37,6 @@ gapi.load('client:auth2', () => {
 
         });
 });
-
-function downloadFile(
-    downloadUrl: string, /* callback: (response: any) => void*/
-): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-        var accessToken = gapi.auth.getToken().access_token;
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            resolve(xhr.responseText);
-        };
-        xhr.onerror = function (error) {
-            reject(error);
-        };
-        xhr.open('GET', downloadUrl);
-        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-        xhr.send();
-    });
-}
 
 async function whenSignedIntoGoogleForSure() {
     const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
@@ -218,6 +199,10 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             else {
                 null;
             }
+        },
+        whenToSaveDataToGoogleDrive: () => {
+            const text = JSON.stringify(oldProps.intervals);
+            console.log(text);
         },
         whenSwitchMode: (isInEditMode: boolean) => {
             const newProps: CalculatorEditProps = {

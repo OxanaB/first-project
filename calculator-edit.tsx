@@ -23,6 +23,7 @@ export interface CalculatorEditProps {
     whenButtonUpIsPushed: (intervalStringKey: string) => void;
     whenButtonDownIsPushed: (intervalStringKey: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
+    whenToSaveDataToGoogleDrive: () => void;
 }
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
@@ -100,7 +101,12 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                             />
                         </div>
                     }
-                })}</div>
+                })}
+                <div className='save-my-data'>
+                    <button onClick={() => {
+                        this.props.whenToSaveDataToGoogleDrive();       
+                    }}>Save my interval settings to GOOGLE Drive</button>
+                </div></div>
             <div className="footer">
                 {this.props.what === 'Departure time' ? 'I will finish / arrive at' : 'I need to get start at'}
                 <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
