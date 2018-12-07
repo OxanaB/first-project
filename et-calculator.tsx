@@ -10,7 +10,9 @@ import { gapi } from "./gapi";
 var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
 var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+var SCOPES = 'https://www.googleapis.com/auth/drive';
+// 'https://www.googleapis.com/auth/drive.metadata.readonly',
+// 'https://www.googleapis.com/auth/drive.appdata',
 
 gapi.load('client:auth2', () => {
 
@@ -39,24 +41,24 @@ gapi.load('client:auth2', () => {
 });
 
 async function whenSignedIntoGoogleForSure() {
-    const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
-    // downloadFile(downloadUrl).then(response => {
-    //     const intervals = JSON.parse(response);
-    //     TimeCalculator(true, intervals);
-    // });
-
-    const response = await downloadFile(downloadUrl);
-    const intervals = JSON.parse(response);
-    TimeCalculator(true, intervals);
-
-
-    // gapi.client.drive.files.export({
-    //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
-    // }).then(function (response: any) {
-    //     var result = response.result;
-    //     console.log(result);
-    //     
-    // });
+        const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
+        // downloadFile(downloadUrl).then(response => {
+        //     const intervals = JSON.parse(response);
+        //     TimeCalculator(true, intervals);
+        // });
+    
+        const response = await downloadFile(downloadUrl);
+        const intervals = JSON.parse(response);
+        TimeCalculator(true, intervals);
+    
+    
+        // gapi.client.drive.files.export({
+        //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
+        // }).then(function (response: any) {
+        //     var result = response.result;
+        //     console.log(result);
+        //     
+        // });
 }
 
 function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
@@ -69,7 +71,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
 
             },
             whenToSignOut: () => {
-
+                gapi.auth2.getAuthInstance().signOut();
             },
         },
         intervalNewAdd: {
@@ -203,6 +205,27 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         whenToSaveDataToGoogleDrive: () => {
             const text = JSON.stringify(oldProps.intervals);
             console.log(text);
+        },
+        saveToDrive: () => {
+            const fileMetadata = {
+                'name': 'config.json',
+                'parents': ['appDataFolder']
+            };
+            const media = {
+                mimeType: 'application/json',
+                body: null
+            };
+            gapi.client.drive.files.create({
+                resource: fileMetadata,
+                media: media,
+                fields: 'id'
+            }, function (err: any, file: any) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log('Folder Id:', file.id);
+                }
+            });
         },
         whenSwitchMode: (isInEditMode: boolean) => {
             const newProps: CalculatorEditProps = {
