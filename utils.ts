@@ -1,14 +1,4 @@
 
-export function getFirstElement<T>(array: T[]): T {
-    const element1 = array[0];
-    return element1;
-}
-
-export function getLastElement<T>(array: T[]): T {
-    const lastElement = array[array.length - 1];
-    return lastElement;
-}
-
 export function getRandomElement<T>(array: T[]): T {
     const n = Math.random() * array.length;
     const r = Math.floor(n);
@@ -22,18 +12,6 @@ export const colors = [
 export function getRandomX11Color() {
     const colorRandom = getRandomElement(colors);
     return colorRandom;
-}
-export const symbolForHexColor = ['a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-export function getRandomHexColor() {
-    const a = getRandomElement(symbolForHexColor);
-    const b = getRandomElement(symbolForHexColor);
-    const c = getRandomElement(symbolForHexColor);
-    const d = getRandomElement(symbolForHexColor);
-    const e = getRandomElement(symbolForHexColor);
-    const f = getRandomElement(symbolForHexColor);
-    const randomHexColor = "#" + a + b + c + d + e + f;
-    return randomHexColor;
 }
 
 export const lettersToPickUp = [
@@ -55,6 +33,9 @@ export function getTodayDate() {
 export function copyDate(date: Date): Date {
     return new Date(date.getTime());
 }
+export function formatDateTime(datetime: Date): string {
+    return datetime.getHours().toString().padStart(2, '0') + ':' + datetime.getMinutes().toString().padStart(2, '0');
+}
 
 export function copyArray<T>(array: T[]): T[] {
     return array.slice(0);
@@ -67,10 +48,6 @@ export function swapInArray<T>(array: T[], oneIndex: number, anotherIndex: numbe
     copied[oneIndex] = anotherValue;
     copied[anotherIndex] = oneValue;
     return copied;
-}
-
-export function formatDateTime(datetime: Date): string {
-    return datetime.getHours().toString().padStart(2, '0') + ':' + datetime.getMinutes().toString().padStart(2, '0');
 }
 
 export function map<In, Out>(value: In[], instead: (value:In) => Out) {
@@ -103,4 +80,13 @@ export function fold<T,R>(vals: T[], result:R, take:(result:R, val:T) => R):R {
 export function sum(numbers: number[]): number{
     const sum = fold(numbers, 0, (sum, number) => sum + number);
     return sum;
+}
+
+export function increment<T>(step: number, origin: number, times: number, act:(at:number, index: number) => T) {
+    const result: T[] = [];
+    for (let index=0; index < times; index++) {
+        const at = origin + step*index; 
+        const value = act(at, index);
+        result.push(value);
+    } return result;
 }
