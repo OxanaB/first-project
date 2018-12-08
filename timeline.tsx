@@ -51,7 +51,7 @@ export class TimeLine extends React.Component<TimeLineProps> {
                 })}
                 <>
                     <line x1={0} y1={now} x2={350} y2={now} stroke={'red'} strokeWidth={3} />
-                    <text x={140} y={now} dy={11} textAnchor="end" style={{ fill: 'red', fontSize: '12px' }}> {formatDateTime(currentTime)}</text>
+                    <text x={250} y={now} dy={11} textAnchor="end" style={{ fill: 'red', fontSize: '12px' }}>Current time: {formatDateTime(currentTime)}</text>
                 </>
             </svg>
         </div>
