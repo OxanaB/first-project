@@ -5,6 +5,7 @@ import { Interval } from "./et-arrays";
 export interface CalculatorViewProps {
     intervals: Interval[];
     time: Date;
+    departureOrArrivalTime: Date;
     whenSwitchMode: (isInEditMode: boolean) => void;
 }
 export class CalculatorView extends React.Component<CalculatorViewProps> {
@@ -16,11 +17,12 @@ export class CalculatorView extends React.Component<CalculatorViewProps> {
                         <a href="" onClick={e => {
                             e.preventDefault();
                             this.props.whenSwitchMode(true);
-                        }}>Edit mode</a>
+                        }}>back to edit</a>
                     </div>
                 
                 <div className="time-line">
                     <TimeLine
+                        departureOrArrivalTime={this.props.departureOrArrivalTime}
                         time={this.props.time}
                         intervals={this.props.intervals}
                     />
