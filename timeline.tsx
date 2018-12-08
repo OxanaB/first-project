@@ -9,17 +9,20 @@ export interface TimeLineProps {
 
 export class TimeLine extends React.Component<TimeLineProps> {
     render() {
-        let lastY = 0;
+        const hours = this.props.time.getHours();
+        const minutes = this.props.time.getMinutes();
+        let lastY = hours*60 + minutes;
         let lastTime = this.props.time.getTime();
         let totalIndex = 0;
-
+        
         const currentTime = getTodayDate();
-        const ms = currentTime.getTime();
-        const now = (ms - this.props.time.getTime()) / 60000;
+        // const ms = currentTime.getTime();
+        // const now = (ms - this.props.time.getTime()) / 60000;
+        const now = currentTime.getHours()*60 + currentTime.getMinutes();
 
         const fullDay = 1440;
         return <div className='time-line'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="400" height="864" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="400" height="1440" >
                 {map(this.props.intervals, (intervals) => {
                     const y = lastY;
                     const min = intervals.intTime;

@@ -20,7 +20,8 @@ export class CalculatorView extends React.Component<CalculatorViewProps> {
                     </div>
                 
                 <div className="time-line">
-                    <TimeLine time={this.props.time}
+                    <TimeLine
+                        time={this.props.time}
                         intervals={this.props.intervals}
                     />
                 </div>

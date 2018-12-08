@@ -244,7 +244,11 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         ReactDOM.render(
             oldProps.isInEditMode
                 ? <CalculatorEdit {...newProps} />
-                : <CalculatorView intervals={oldProps.intervals} time={oldProps.time} whenSwitchMode={oldProps.whenSwitchMode} />,
+                : <CalculatorView
+                    intervals={oldProps.intervals}
+                    time={oldProps.time}
+                    whenSwitchMode={oldProps.whenSwitchMode}
+                />,
             rootElement
         );
     }

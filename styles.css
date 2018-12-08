@@ -59,7 +59,8 @@ h2 {
   text-align: left;
 }
 .time-line {
-  margin-left: 20px;
+  align-self: flex-start;
+  margin: 5px 0px 0px 5px;
 }
 .interval-add {
   padding: 10px;
