@@ -35,6 +35,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
         const totalSpend = spentHours + " hours " + restMinutes + " minutes";
 
         return <div className="page">
+            <div className='top-buttons'>
             <div className='authentication'>
                 <SignInOutButtons isSignedIn={this.props.isSignedInStatus.isSignedIn}
                     whenToSignIn={() => {
@@ -50,9 +51,9 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                     e.preventDefault();
                     this.props.whenSwitchMode(false);
                 }}>View mode</a>
-            </div>
+            </div></div>
 
-            <header><h1>Duration calculator</h1></header>
+            <header><h1>Time duration calculator</h1></header>
             <div className="time">
                 <Time time={getTodayDate()} whenTimeIsEntered={(time, what) => {
                     this.props.whenTimeIsEntered(time, what);

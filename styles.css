@@ -14,26 +14,26 @@
   flex-direction: column;
   align-items: center;
 }
-.authentication {
+.top-buttons {
   display: flex;
-  align-self: flex-start;
-  background-color: #fff;
+  justify-content: space-between;
+  width: 375px;
+}
+.authentication {
   margin-left: 20px;
 }
 .link-to-next-page {
-  align-self: flex-end;
   margin-right: 20px;
   font-size: 14px;
-  border: 1px solid grey;
-  border-radius: 15px 5px 0px 0px;
-  padding: 10px;
+  border: 2px solid #808080;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #d6e8fdd7;
   cursor: pointer;
-}
-header {
-  z-index: 0;
 }
 h1 {
   text-align: center;
+  font-size: 22px;
 }
 h2 {
   font-size: 18px;
@@ -100,7 +100,6 @@ strong {
   background-repeat: no-repeat;
   background-position: center;
   background-color: #c6d3e2d7;
-  padding: 5px;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -117,6 +116,19 @@ strong {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDBWMHoiLz48cGF0aCBkPSJNMTkuNzcgNS4wM2wxLjQgMS40TDguNDMgMTkuMTdsLTUuNi01LjYgMS40LTEuNCA0LjIgNC4yTDE5Ljc3IDUuMDNtMC0yLjgzTDguNDMgMTMuNTRsLTQuMi00LjJMMCAxMy41NyA4LjQzIDIyIDI0IDYuNDMgMTkuNzcgMi4yeiIvPjwvc3ZnPg==');
   padding: 5px;
   background-color: transparent;
+}
+#top {
+  margin-left: 15px;
+  width: 30px;
+  height: 30px;
+  border: 1px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #c6d3e2d7;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  border-image: initial;
 }
 .enter {
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEzIDdoLTJ2NEg3djJoNHY0aDJ2LTRoNHYtMmgtNFY3em0tMS01QzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHoiLz48L3N2Zz4=');
@@ -182,9 +194,11 @@ select {
 }
 .link-to-edit-mode {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   border: 2px solid #808080;
   border-radius: 5px;
+  padding: 5px;
+  background-color: #d6e8fdd7;
   cursor: pointer;
 }
