@@ -27,7 +27,8 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                         this.setState({ intNameChanged: e.currentTarget.value });
                     }}
                     onKeyDown={({ keyCode }) => {
-                        if (keyCode === 13) {const intTimeNew = this.state.intTimeChanged;
+                        if (keyCode === 13) {
+                            const intTimeNew = this.state.intTimeChanged;
                             const intTimeNumber = parseInt(intTimeNew);
 
                             const interval: Interval = {
@@ -37,8 +38,8 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                                 key: this.props.interval.key
                             };
                             this.props.whenEditingFinished(interval);
-                    } else null
-                }}
+                        } else null
+                    }}
                 />
                 <input className="intup-style-number" type="text"
                     value={this.state.intTimeChanged}
@@ -46,7 +47,8 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                         this.setState({ intTimeChanged: e.currentTarget.value });
                     }}
                     onKeyDown={({ keyCode }) => {
-                        if (keyCode === 13) {const intTimeNew = this.state.intTimeChanged;
+                        if (keyCode === 13) {
+                            const intTimeNew = this.state.intTimeChanged;
                             const intTimeNumber = parseInt(intTimeNew);
 
                             const interval: Interval = {
@@ -56,8 +58,8 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                                 key: this.props.interval.key
                             };
                             this.props.whenEditingFinished(interval);
-                    } else null
-                }}
+                        } else null
+                    }}
                 /></div>
             <div className="icon-buttons-container">
                 <div className="arrows">
@@ -81,7 +83,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                             };
                             this.props.whenEditingFinished(interval);
                         }}
-                        ></button>
+                    ></button>
                     <button className="icon-button delete" onClick={() => {
                         this.props.whenOldIntervalToDelete(interval.key);
                     }}></button></div>

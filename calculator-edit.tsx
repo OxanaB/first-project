@@ -5,6 +5,7 @@ import { IntervalEditInterface, ButtonEdit } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
+import { FeedBack } from "./FeedBack";
 
 export interface CalculatorEditProps {
     intervals: Interval[];
@@ -15,6 +16,11 @@ export interface CalculatorEditProps {
     time: Date;
     what: string;
     departureOrArrivalTime: Date;
+    userName: string;
+    email: string;
+    feedBackText: string;
+    feedback: {};
+    whenSubmitedFeedBack: (feedback: {}) => void;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
     whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
@@ -36,22 +42,22 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
 
         return <div className="page">
             <div className='top-buttons'>
-            <div className='authentication'>
-                <SignInOutButtons isSignedIn={this.props.isSignedInStatus.isSignedIn}
-                    whenToSignIn={() => {
-                        this.props.isSignedInStatus.whenToSignIn();
-                    }}
-                    whenToSignOut={() => {
-                        this.props.isSignedInStatus.whenToSignOut();
-                    }}
-                />
-            </div>
-            <div className="link-to-next-page">
-                <a href="" onClick={e => {
-                    e.preventDefault();
-                    this.props.whenSwitchMode(false);
-                }}>View mode</a>
-            </div></div>
+                <div className='authentication'>
+                    <SignInOutButtons isSignedIn={this.props.isSignedInStatus.isSignedIn}
+                        whenToSignIn={() => {
+                            this.props.isSignedInStatus.whenToSignIn();
+                        }}
+                        whenToSignOut={() => {
+                            this.props.isSignedInStatus.whenToSignOut();
+                        }}
+                    />
+                </div>
+                <div className="link-to-next-page">
+                    <a href="" onClick={e => {
+                        e.preventDefault();
+                        this.props.whenSwitchMode(false);
+                    }}>View mode</a>
+                </div></div>
 
             <header><h1>Time duration calculator</h1></header>
             <div className="time">
@@ -107,13 +113,21 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <div className='save-my-data'>
                     <button onClick={() => {
                         this.props.whenToSaveDataToGoogleDrive();
-                        this.props.saveToDrive();       
+                        this.props.saveToDrive();
                     }}>Save my interval settings to GOOGLE Drive</button>
                 </div></div>
             <div className="footer">
                 {this.props.what === 'Departure time' ? 'I will finish / arrive at' : 'I need to get start at'}
                 <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
                 <p>and will spend {totalSpend}</p>
+            </div>
+            <div>
+                <FeedBack userName={this.props.userName}
+                    email={this.props.email}
+                    feedBackText={this.props.feedBackText}
+                    whenSubmitedFeedBack={(feedback) => {
+                        this.props.whenSubmitedFeedBack(feedback);
+                    }} />
             </div>
         </div>
     }

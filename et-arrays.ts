@@ -4,6 +4,11 @@ export interface Interval {
     intTime: number;
     isOnEditing: boolean;
 }
+export interface Feedback {
+    username: string;
+    email: string;
+    feedbackText: string;
+}
 // export const intervals1111: Interval[] = [
 //     {
 //         key: "abc",

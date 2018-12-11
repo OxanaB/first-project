@@ -41,24 +41,24 @@ gapi.load('client:auth2', () => {
 });
 
 async function whenSignedIntoGoogleForSure() {
-        const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
-        // downloadFile(downloadUrl).then(response => {
-        //     const intervals = JSON.parse(response);
-        //     TimeCalculator(true, intervals);
-        // });
-    
-        const response = await downloadFile(downloadUrl);
-        const intervals = JSON.parse(response);
-        TimeCalculator(true, intervals);
-    
-    
-        // gapi.client.drive.files.export({
-        //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
-        // }).then(function (response: any) {
-        //     var result = response.result;
-        //     console.log(result);
-        //     
-        // });
+    const downloadUrl = 'https://drive.google.com/uc?id=1MJnWntyfL7oLcZGvusHanm2i7UuFnIag&export=download';
+    // downloadFile(downloadUrl).then(response => {
+    //     const intervals = JSON.parse(response);
+    //     TimeCalculator(true, intervals);
+    // });
+
+    const response = await downloadFile(downloadUrl);
+    const intervals = JSON.parse(response);
+    TimeCalculator(true, intervals);
+
+
+    // gapi.client.drive.files.export({
+    //     'fileId': '1MJnWntyfL7oLcZGvusHanm2i7UuFnIag'
+    // }).then(function (response: any) {
+    //     var result = response.result;
+    //     console.log(result);
+    //     
+    // });
 }
 
 function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
@@ -111,6 +111,14 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
+        feedback: {
+            userName: 'My Name',
+            email: 'example@domain.com',
+            feedBackText: 'What do you think about application'
+        },
+        userName: 'My Name',
+        email: 'example@domain.com',
+        feedBackText: 'What do you think about application',
         whenTimeIsEntered: (newTime, what) => {
 
             const intervalTimes = map(oldProps.intervals, interval => { return interval.intTime });
@@ -232,6 +240,14 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 ...oldProps,
                 isInEditMode: isInEditMode,
             };
+            rerender(newProps);
+        },
+        whenSubmitedFeedBack: (feedback) => {
+            const newProps: CalculatorEditProps = {
+                ...oldProps,
+                feedback: { feedback },
+            };
+            console.log(feedback);
             rerender(newProps);
         }
     };
