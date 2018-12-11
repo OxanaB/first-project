@@ -1,21 +1,21 @@
 import React = require("react");
 
-export interface FeedBackProps {
+export interface FeedbackProps {
     userName: string;
     email: string;
-    feedBackText: string;
-    whenSubmitedFeedBack: (feedback: {} ) => void;
+    feedbackText: string;
+    whenSubmitedFeedback: (feedback: {} ) => void;
 }
-export interface FeedBackState {
+export interface FeedbackState {
     userNameEntered: string;
     emailEntered: string;
-    feedBackTextEntered: string;
+    feedbackTextEntered: string;
 }
-export class FeedBack extends React.Component<FeedBackProps, FeedBackState> {
+export class Feedback extends React.Component<FeedbackProps, FeedbackState> {
     state =  {
         userNameEntered: this.props.userName,
         emailEntered: this.props.email,
-        feedBackTextEntered: this.props.feedBackText
+        feedbackTextEntered: this.props.feedbackText
     };
     render() {
         return <div className='feed-back'>
@@ -27,17 +27,17 @@ export class FeedBack extends React.Component<FeedBackProps, FeedBackState> {
                 onChange={(e) => {
                 this.setState({ emailEntered: e.currentTarget.value });
             }}/>
-            <textarea value={this.state.feedBackTextEntered} 
+            <textarea value={this.state.feedbackTextEntered} 
                 onChange={(e) => {
-                this.setState({ feedBackTextEntered: e.currentTarget.value });
+                this.setState({ feedbackTextEntered: e.currentTarget.value });
             }}>Your comment</textarea>
             <button onClick={() => {
                 const feedback = {
                     userName: this.state.userNameEntered,
                     email: this.state.emailEntered,
-                    feedBackText: this.state.feedBackTextEntered,
+                    feedBackText: this.state.feedbackTextEntered,
                 }
-                this.props.whenSubmitedFeedBack(feedback);
+                this.props.whenSubmitedFeedback(feedback);
             }}>Send feedback</button>
         </div>;
     }

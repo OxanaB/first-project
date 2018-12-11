@@ -5,7 +5,7 @@ import { IntervalEditInterface, ButtonEdit } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
-import { FeedBack } from "./FeedBack";
+import { Feedback } from "./FeedBack";
 
 export interface CalculatorEditProps {
     intervals: Interval[];
@@ -18,9 +18,9 @@ export interface CalculatorEditProps {
     departureOrArrivalTime: Date;
     userName: string;
     email: string;
-    feedBackText: string;
+    feedbackText: string;
     feedback: {};
-    whenSubmitedFeedBack: (feedback: {}) => void;
+    whenSubmitedFeedback: (feedback: {}) => void;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
     whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
@@ -122,11 +122,11 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <p>and will spend {totalSpend}</p>
             </div>
             <div>
-                <FeedBack userName={this.props.userName}
+                <Feedback userName={this.props.userName}
                     email={this.props.email}
-                    feedBackText={this.props.feedBackText}
-                    whenSubmitedFeedBack={(feedback) => {
-                        this.props.whenSubmitedFeedBack(feedback);
+                    feedbackText={this.props.feedbackText}
+                    whenSubmitedFeedback={(feedback) => {
+                        this.props.whenSubmitedFeedback(feedback);
                     }} />
             </div>
         </div>
