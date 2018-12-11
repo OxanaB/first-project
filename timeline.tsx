@@ -11,23 +11,27 @@ export interface TimeLineProps {
 
 export class TimeLine extends React.Component<TimeLineProps> {
     render() {
-        const k = 0.5; // zoom-coefficient 
+        const k = 1; // zoom-coefficient 
 
-        const initialHours = this.props.time.getHours();
+        const initialHoursDeparture = this.props.time.getHours();
+        const initialHoursArrival = this.props.departureOrArrivalTime.getHours();
         const minutes = this.props.time.getMinutes();
         let lastY = minutes;
         let lastTime = this.props.time.getTime();
+        let lastTimeArriaval = this.props.departureOrArrivalTime.getTime();
+        let lastYArrival = this.props.departureOrArrivalTime.getMinutes();
         let totalIndex = 0;
                
         const currentTime = getTodayDate();
         const ms = currentTime.getTime();
         const now = (ms - this.props.time.getTime()) / 60000 * k;
+        const nowArrival = (ms - this.props.departureOrArrivalTime.getTime()) / 60000 * k;
         // const now = currentTime.getHours() + currentTime.getMinutes();
 
         const intervalTimes = map(this.props.intervals, interval => { return interval.intTime });
         const totalMinutes = sum(intervalTimes);
         const end = totalMinutes*k + lastY;
-        const start = lastY - totalMinutes*k;
+        const start = lastYArrival;
 
         const fullDay = 1440;
         // width="400" height="1440"
@@ -56,7 +60,7 @@ export class TimeLine extends React.Component<TimeLineProps> {
                     })}
                     <line x1={35} y1={0} x2={35} y2={fullDay} stroke={'grey'} strokeWidth={1} />
                     {increment(60*k, 0, 25, (at, i) => {
-                        const hours = i + initialHours;
+                        const hours = i + initialHoursDeparture;
                         const scaleHours = hours % 24;
                         return <>
                             <line x1={0} y1={at} x2={375} y2={at} stroke={'grey'} strokeWidth={1} />
@@ -72,17 +76,17 @@ export class TimeLine extends React.Component<TimeLineProps> {
                 </svg>
                 : <svg xmlns="http://www.w3.org/2000/svg" className="viewport" >
                 {map(this.props.intervals, (intervals) => {
-                    const y = lastY;
+                    const y = lastYArrival;
                     const min = intervals.intTime*k;
-                    lastY = lastY + min;
+                    lastYArrival = lastYArrival + min;
 
                     totalIndex = totalIndex + 1;
                     const index = totalIndex % colors.length;
 
                     const name = intervals.intName;
                     const intLengthMs = intervals.intTime * 60 * 1000;
-                    const totalMs = lastTime;
-                    lastTime = lastTime + intLengthMs;
+                    const totalMs = lastTimeArriaval;
+                    lastTimeArriaval = lastTimeArriaval + intLengthMs;
                     const intBeginingTime = new Date(totalMs);
                     const intBeginingTimeFormated = formatDateTime(intBeginingTime);
                     const translate = "translate(50, " + y + ")";
@@ -92,8 +96,8 @@ export class TimeLine extends React.Component<TimeLineProps> {
                     </g>;
                 })}
                 <line x1={35} y1={0} x2={35} y2={fullDay} stroke={'grey'} strokeWidth={1} />
-                {increment(60, 0, 25, (at, i) => {
-                    const hours = i + initialHours;
+                {increment(60*k, 0, 25, (at, i) => {
+                    const hours = i + initialHoursArrival;
                     const scaleHours = hours % 24;
                     return <>
                         <line x1={0} y1={at} x2={375} y2={at} stroke={'grey'} strokeWidth={1} />
@@ -101,8 +105,8 @@ export class TimeLine extends React.Component<TimeLineProps> {
                     </>
                 })}
                 <>
-                    <line x1={0} y1={now} x2={375} y2={now} stroke={'blue'} strokeWidth={1} />
-                    <text x={375} y={now} dy={11} textAnchor="end" style={{ fill: 'blue', fontSize: '12px' }}>Current time: {formatDateTime(currentTime)}</text>
+                    <line x1={0} y1={nowArrival} x2={375} y2={nowArrival} stroke={'blue'} strokeWidth={1} />
+                    <text x={375} y={nowArrival} dy={11} textAnchor="end" style={{ fill: 'blue', fontSize: '12px' }}>Current time: {formatDateTime(currentTime)}</text>
                     <line x1={0} y1={start} x2={375} y2={start} stroke={'black'} strokeWidth={1} />
                     <text x={375} y={start} dy={11} textAnchor="end" style={{ fill: 'black', fontSize: '12px' }}>Need to start: {formatDateTime(this.props.departureOrArrivalTime)}</text>
                 </>
