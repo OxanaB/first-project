@@ -245,6 +245,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             oldProps.isInEditMode
                 ? <CalculatorEdit {...newProps} />
                 : <CalculatorView
+                    what={oldProps.what}
                     departureOrArrivalTime={oldProps.departureOrArrivalTime}
                     intervals={oldProps.intervals}
                     time={oldProps.time}
