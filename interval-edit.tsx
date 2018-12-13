@@ -7,20 +7,22 @@ export interface IntervalEditInterfaceProps {
     whenIntervalToGoUp: (intervalToUpKey: string) => void;
     whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-     
+
 }
 export interface IntervalEditInterfaceState {
     intNameChanged: string;
     intTimeChanged: string;
+    isTimeValid: boolean;
 }
 export class IntervalEditInterface extends React.Component<IntervalEditInterfaceProps, IntervalEditInterfaceState> {
     state = {
         intNameChanged: this.props.interval.intName,
         intTimeChanged: this.props.interval.intTime.toString(),
+        isTimeValid: true,
     }
     render() {
         const interval = this.props.interval;
-        
+
         return <div className="editing-container">
             <div>
                 <input className="intup-style-text" type="text"
@@ -52,17 +54,22 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                         if (keyCode === 13) {
                             const intTimeNew = this.state.intTimeChanged;
                             const intTimeNumber = parseInt(intTimeNew);
-
-                            const interval: Interval = {
-                                intName: this.state.intNameChanged,
-                                intTime: intTimeNumber,
-                                isOnEditing: false,
-                                key: this.props.interval.key
-                            };
-                            this.props.whenEditingFinished(interval);
+                            const isTimeValid = !isNaN(intTimeNumber);
+                            this.setState({ isTimeValid });
+                            if (isTimeValid) {
+                                const interval: Interval = {
+                                    intName: this.state.intNameChanged,
+                                    intTime: intTimeNumber,
+                                    isOnEditing: false,
+                                    key: this.props.interval.key
+                                };
+                                this.props.whenEditingFinished(interval);
+                            }
                         } else null
                     }}
-                    /></div>
+                />
+                {this.state.isTimeValid ? null : <div>Problem</div>}
+            </div>
             <div className="icon-buttons-container">
                 <div className="arrows">
                     <button className="icon-button arrow-up" onClick={() => {
@@ -76,20 +83,22 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                         onClick={() => {
                             const intTimeNew = this.state.intTimeChanged;
                             const intTimeNumber = parseInt(intTimeNew);
-
-                            const interval: Interval = {
-                                intName: this.state.intNameChanged,
-                                intTime: intTimeNumber,
-                                isOnEditing: false,
-                                key: this.props.interval.key
-                            };
-                            this.props.whenEditingFinished(interval);
+                            const isTimeValid = !isNaN(intTimeNumber)
+                            this.setState({ isTimeValid });
+                            if (isTimeValid) {
+                                const interval: Interval = {
+                                    intName: this.state.intNameChanged,
+                                    intTime: intTimeNumber,
+                                    isOnEditing: false,
+                                    key: this.props.interval.key
+                                };
+                                this.props.whenEditingFinished(interval);
+                            } null
                         }}
                     ></button>
                     <button className="icon-button delete" onClick={() => {
                         this.props.whenOldIntervalToDelete(interval.key);
                     }}></button></div>
-
             </div>
         </div>
     }
