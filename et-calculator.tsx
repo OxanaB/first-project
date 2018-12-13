@@ -101,9 +101,13 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             },
             whenNewIntervalAdded: (newInterval) => {
                 const extendedIntervals = oldProps.intervals.concat(newInterval);
+                const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                    extendedIntervals, oldProps.what, oldProps.time
+                );
                 const newProps: CalculatorEditProps = {
                     ...oldProps,
                     intervals: extendedIntervals,
+                    departureOrArrivalTime: departureOrArrivalTime,
                 };
                 rerender(newProps);
             },
@@ -138,9 +142,13 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             const filteredIntervals = filter(oldProps.intervals,
                 otherInterval => otherInterval.key !== oldIntervalKey
             );
+            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                filteredIntervals, oldProps.what, oldProps.time
+            );
             const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: filteredIntervals,
+                departureOrArrivalTime: departureOrArrivalTime,
             }
             rerender(newProps);
         },
