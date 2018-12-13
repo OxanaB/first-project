@@ -3,7 +3,7 @@ import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
 import * as React from "react";
 import { CalculatorView } from "./calculator-view";
-import { Interval } from "./et-arrays";
+import { Interval, intervalsExample } from "./et-arrays";
 import { downloadFile } from "./google-drive-utils";
 import { gapi } from "./gapi";
 
@@ -30,10 +30,7 @@ gapi.load('client:auth2', () => {
             if (isSignedIn) {
                 whenSignedIntoGoogleForSure();
             } else {
-                gapi.auth2.getAuthInstance().isSignedIn.listen(() => {
-                    whenSignedIntoGoogleForSure();
-                });
-                gapi.auth2.getAuthInstance().signIn();
+                whenIsNotSingedIn();
             }
 
 
@@ -59,6 +56,11 @@ async function whenSignedIntoGoogleForSure() {
     //     console.log(result);
     //     
     // });
+}
+
+function whenIsNotSingedIn(){
+    const intervals = intervalsExample;
+    TimeCalculator(false,intervals)
 }
 
 function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
@@ -114,11 +116,9 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         departureOrArrivalTime: new Date(),
         whenTimeIsEntered: (newTime, what) => {
 
-            const intervalTimes = map(oldProps.intervals, interval => { return interval.intTime });
-            const totalMinutes = sum(intervalTimes);
-
-            const departureOrArrivalTime = toCountTime(what, newTime, totalMinutes);
-
+            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                oldProps.intervals, what, newTime
+            );
             const newProps: CalculatorEditProps = {
                 ...oldProps,
                 time: newTime,
@@ -170,9 +170,13 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     }
                 }
             );
+            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                editedIntervals, oldProps.what, oldProps.time
+            );
             const newProps: CalculatorEditProps = {
                 ...oldProps,
                 intervals: editedIntervals,
+                departureOrArrivalTime: departureOrArrivalTime,
             };
             rerender(newProps);
         },
@@ -267,7 +271,13 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
     }
 }
 
+function calculateDepartureOrArrivalTime(intervals: Interval[], what: string, newTime: Date) {
+    const intervalTimes = map(intervals, interval => { return interval.intTime });
+    const totalMinutes = sum(intervalTimes);
 
+    const departureOrArrivalTime = toCountTime(what, newTime, totalMinutes);
+    return departureOrArrivalTime;
+}
 
 function toCountTime(what: string, time: Date, totalMinutes: number): Date {
     if (what == "Arrival time") {

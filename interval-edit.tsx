@@ -7,7 +7,7 @@ export interface IntervalEditInterfaceProps {
     whenIntervalToGoUp: (intervalToUpKey: string) => void;
     whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-    
+     
 }
 export interface IntervalEditInterfaceState {
     intNameChanged: string;
@@ -20,6 +20,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
     }
     render() {
         const interval = this.props.interval;
+        
         return <div className="editing-container">
             <div>
                 <input className="intup-style-text" type="text"
