@@ -111,14 +111,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
-        feedback: {
-            userName: '',
-            email: '',
-            feedBackText: ''
-        },
-        userName: 'My Name',
-        email: 'example@domain.com',
-        feedbackText: 'What do you think about application',
         whenTimeIsEntered: (newTime, what) => {
 
             const intervalTimes = map(oldProps.intervals, interval => { return interval.intTime });
@@ -240,14 +232,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 ...oldProps,
                 isInEditMode: isInEditMode,
             };
-            rerender(newProps);
-        },
-        whenSubmitedFeedback: (feedback) => {
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                feedback: { feedback },
-            };
-            console.log(feedback);
             rerender(newProps);
         }
     };
