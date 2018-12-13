@@ -1,4 +1,4 @@
-import { CalculatorEditProps, CalculatorEdit } from "./calculator-edit";
+import { CalculatorEditProps, CalculatorEdit, Feedback } from "./calculator-edit";
 import { map, sum, filter, swapInArray } from "./utils";
 import * as ReactDOM from "react-dom";
 import * as React from "react";
@@ -108,6 +108,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         },
         intervals: intervals,
         isInEditMode: true,
+        isToFeedBackPage: false,
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
@@ -233,6 +234,13 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 isInEditMode: isInEditMode,
             };
             rerender(newProps);
+        },
+        whenToFeedback: (isToFeedBackPage: boolean) => {
+            const newProps: CalculatorEditProps = {
+                ...oldProps,
+                isToFeedBackPage: isToFeedBackPage,
+            };
+            rerender(newProps);
         }
     };
 
@@ -242,8 +250,11 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         const rootElement = document.getElementById('root');
         oldProps = newProps;
         ReactDOM.render(
-            oldProps.isInEditMode
-                ? <CalculatorEdit {...newProps} />
+            oldProps.isToFeedBackPage ? 
+                <Feedback isToFeedBackPage={oldProps.isToFeedBackPage}
+                whenToFeedback={oldProps.whenToFeedback} />
+                : oldProps.isInEditMode ? 
+                <CalculatorEdit {...newProps} /> 
                 : <CalculatorView
                     what={oldProps.what}
                     departureOrArrivalTime={oldProps.departureOrArrivalTime}
@@ -255,6 +266,8 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         );
     }
 }
+
+
 
 function toCountTime(what: string, time: Date, totalMinutes: number): Date {
     if (what == "Arrival time") {

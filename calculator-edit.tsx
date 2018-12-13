@@ -10,6 +10,7 @@ import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
 export interface CalculatorEditProps {
     intervals: Interval[];
     isInEditMode: boolean;
+    isToFeedBackPage: boolean;
     isNewIntervalToAdd: boolean;
     intervalNewAdd: IntervalNewAddProps;
     isSignedInStatus: SignInOutButtonsProps;
@@ -24,6 +25,7 @@ export interface CalculatorEditProps {
     whenButtonUpIsPushed: (intervalStringKey: string) => void;
     whenButtonDownIsPushed: (intervalStringKey: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
+    whenToFeedback: (isToFeedBackPage: boolean) => void;
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
 }
@@ -116,9 +118,29 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
                 <p>and will spend {totalSpend}</p>
             </div>
-            <div>Send us a feedback
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeXLB-dvqcWS7ERVnIJkV277Mnoekjc3w5wZAm4fwrSYulGdQ/viewform"/>
+            <div><a href="" onClick={e => {
+                e.preventDefault();
+                this.props.whenToFeedback(true);
+            }}>Send us a feedback</a>
             </div>
         </div>
     }
+}
+
+export interface FeedbackProps {
+    isToFeedBackPage: boolean
+    whenToFeedback: (isToFeedBackPage: boolean) => void;
+}
+export class Feedback extends React.Component<FeedbackProps> {
+    render() {
+        return <div>
+            <a className="back-to-edit-mode"
+            href="" onClick={e => {
+                e.preventDefault();
+                this.props.whenToFeedback(false);
+            }}>Back to app</a>
+            <iframe height='100%' width='100%'
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeXLB-dvqcWS7ERVnIJkV277Mnoekjc3w5wZAm4fwrSYulGdQ/viewform"/>
+        </div>
+    } 
 }

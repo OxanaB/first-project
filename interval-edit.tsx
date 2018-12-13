@@ -7,6 +7,7 @@ export interface IntervalEditInterfaceProps {
     whenIntervalToGoUp: (intervalToUpKey: string) => void;
     whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
+    
 }
 export interface IntervalEditInterfaceState {
     intNameChanged: string;
@@ -60,7 +61,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                             this.props.whenEditingFinished(interval);
                         } else null
                     }}
-                /></div>
+                    /></div>
             <div className="icon-buttons-container">
                 <div className="arrows">
                     <button className="icon-button arrow-up" onClick={() => {
