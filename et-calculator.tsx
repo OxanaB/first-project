@@ -204,33 +204,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             };
             rerender(newProps);
         },
-        whenButtonDownIsPushed: (intervalKey) => {
-            const index = oldProps.intervals.findIndex(interval => interval.key === intervalKey);
-            if (index < intervals.length - 1) {
-                const editedIntervals = swapInArray(oldProps.intervals, index, index + 1);
-                const newProps: CalculatorEditProps = {
-                    ...oldProps,
-                    intervals: editedIntervals,
-                };
-                rerender(newProps);
-            } else {
-                null;
-            }
-        },
-        whenButtonUpIsPushed: (intervalKey) => {
-            const index = oldProps.intervals.findIndex(interval => interval.key === intervalKey);
-            if (index !== 0) {
-                const editedIntervals = swapInArray(oldProps.intervals, index, index - 1);
-                const newProps: CalculatorEditProps = {
-                    ...oldProps,
-                    intervals: editedIntervals,
-                };
-                rerender(newProps);
-            }
-            else {
-                null;
-            }
-        },
         whenToSaveDataToGoogleDrive: () => {
             const text = JSON.stringify(oldProps.intervals);
             console.log(text);
@@ -269,7 +242,41 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 isToFeedBackPage: isToFeedBackPage,
             };
             rerender(newProps);
-        }
+        },
+        when: (concern) => {
+            switch(concern.about) {
+                case 'interval-to-go-up': {
+                    const index = oldProps.intervals.findIndex(interval => interval.key === concern.intervalKey);
+                    if (index !== 0) {
+                        const editedIntervals = swapInArray(oldProps.intervals, index, index - 1);
+                        const newProps: CalculatorEditProps = {
+                            ...oldProps,
+                            intervals: editedIntervals,
+                        };
+                        rerender(newProps);
+                    }
+                    else {
+                        null;
+                    }
+                    break;
+                }
+                case 'interval-to-go-down': {
+                    const index = oldProps.intervals.findIndex(interval => interval.key === concern.intervalKey);
+                    if (index < intervals.length - 1) {
+                        const editedIntervals = swapInArray(oldProps.intervals, index, index + 1);
+                        const newProps: CalculatorEditProps = {
+                            ...oldProps,
+                            intervals: editedIntervals,
+                        };
+                        rerender(newProps);
+                    } else {
+                        null;
+                    }
+                    break;
+                }
+            }
+            
+        },
     };
 
     rerender(oldProps);

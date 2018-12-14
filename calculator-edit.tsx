@@ -1,7 +1,7 @@
 import * as React from "react";
 import { map, sum, getTodayDate, formatDateTime } from "./utils";
 import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
-import { IntervalEditInterface, ButtonEdit } from "./interval-edit";
+import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
@@ -22,13 +22,12 @@ export interface CalculatorEditProps {
     whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
     whenIntervalEditingStarted: (intervalKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-    whenButtonUpIsPushed: (intervalStringKey: string) => void;
-    whenButtonDownIsPushed: (intervalStringKey: string) => void;
     whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
     whenToFeedback: (isToFeedBackPage: boolean) => void;
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
+    when: (concern: IntervalToGoUp | IntervalToGoDown) => void;
 }
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
@@ -89,14 +88,13 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                             whenOldIntervalToDelete={(interval) => {
                                 this.props.whenOldIntervalToDelete(interval);
                             }}
-                            whenIntervalToGoDown={(intervalStringKey) => {
-                                this.props.whenButtonDownIsPushed(intervalStringKey);
-                            }}
-                            whenIntervalToGoUp={(intervalStringKey) => {
-                                this.props.whenButtonUpIsPushed(intervalStringKey);
-                            }}
                             whenToCancelIntervalEdit={(intervalKeyToCancelEdit) => {
                                 this.props.whenToCancelIntervalEdit(intervalKeyToCancelEdit);
+                            }}
+                            when={(concern) => {
+                                
+                                this.props.when(concern);
+                            
                             }}
                         />;
                     } else { 

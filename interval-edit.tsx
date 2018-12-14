@@ -4,11 +4,21 @@ import { Interval } from "./et-arrays";
 export interface IntervalEditInterfaceProps {
     interval: Interval;
     whenEditingFinished: (changedInterval: Interval) => void;
-    whenIntervalToGoUp: (intervalToUpKey: string) => void;
-    whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
     whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
+    when: (concern: IntervalToGoUp | IntervalToGoDown) => void;
 }
+
+export interface IntervalToGoUp {
+    about: 'interval-to-go-up';
+    intervalKey: string;
+}
+
+export interface IntervalToGoDown {
+    about: 'interval-to-go-down';
+    intervalKey: string;
+}
+
 export interface IntervalEditInterfaceState {
     intNameChanged: string;
     intTimeChanged: string;
@@ -73,10 +83,10 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
             <div className="icon-buttons-container">
                 <div className="arrows">
                     <button className="icon-button arrow-up" onClick={() => {
-                        this.props.whenIntervalToGoUp(interval.key);
+                        this.props.when({about: 'interval-to-go-up', intervalKey: interval.key });
                     }}></button>
                     <button className="icon-button arrow-down" onClick={() => {
-                        this.props.whenIntervalToGoDown(interval.key);
+                        this.props.when({about: "interval-to-go-down", intervalKey: interval.key});
                     }}></button></div>
                 <div className="actions">
                     <button className="icon-button done"
