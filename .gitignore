@@ -2,3 +2,7 @@ node_modules
 *.js
 *.js.map
 browser
+!async.js
+!react.js
+!react-dom.js
+!require.js
