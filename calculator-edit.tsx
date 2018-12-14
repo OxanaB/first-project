@@ -1,7 +1,7 @@
 import * as React from "react";
 import { map, sum, getTodayDate, formatDateTime } from "./utils";
 import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
-import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown } from "./interval-edit";
+import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown, OldIntervalToDelete, EditingFinished, ToCancelIntervalEdit } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
@@ -19,15 +19,17 @@ export interface CalculatorEditProps {
     departureOrArrivalTime: Date;
     whenTimeIsEntered: (enteredTime: Date, what: string) => void;
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
-    whenIntervalEditingFinished: (newEditedInterval: Interval) => void;
+    
     whenIntervalEditingStarted: (intervalKey: string) => void;
-    whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-    whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
     whenToFeedback: (isToFeedBackPage: boolean) => void;
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
-    when: (concern: IntervalToGoUp | IntervalToGoDown) => void;
+    when: (concern: IntervalToGoUp |
+        IntervalToGoDown |
+        OldIntervalToDelete |
+        EditingFinished |
+        ToCancelIntervalEdit) => void;
 }
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
@@ -82,15 +84,6 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                     if (interval.isOnEditing) {
                         return <IntervalEditInterface
                             interval={interval}
-                            whenEditingFinished={(interval) => {
-                                this.props.whenIntervalEditingFinished(interval);
-                            }}
-                            whenOldIntervalToDelete={(interval) => {
-                                this.props.whenOldIntervalToDelete(interval);
-                            }}
-                            whenToCancelIntervalEdit={(intervalKeyToCancelEdit) => {
-                                this.props.whenToCancelIntervalEdit(intervalKeyToCancelEdit);
-                            }}
                             when={(concern) => {
                                 
                                 this.props.when(concern);
@@ -120,7 +113,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <strong>{formatDateTime(this.props.departureOrArrivalTime)}</strong>
                 <p>and will spend {totalSpend}</p>
             </div>
-            <div><a href="" onClick={e => {
+            <div><a href="" onClick={(e) => {
                 e.preventDefault();
                 this.props.whenToFeedback(true);
             }}>Send us a feedback</a>

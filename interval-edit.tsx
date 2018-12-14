@@ -3,10 +3,11 @@ import { Interval } from "./et-arrays";
 
 export interface IntervalEditInterfaceProps {
     interval: Interval;
-    whenEditingFinished: (changedInterval: Interval) => void;
-    whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-    whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
-    when: (concern: IntervalToGoUp | IntervalToGoDown) => void;
+    when: (concern: IntervalToGoUp |
+        IntervalToGoDown |
+        OldIntervalToDelete |
+        EditingFinished |
+        ToCancelIntervalEdit) => void;
 }
 
 export interface IntervalToGoUp {
@@ -17,6 +18,22 @@ export interface IntervalToGoUp {
 export interface IntervalToGoDown {
     about: 'interval-to-go-down';
     intervalKey: string;
+}
+
+export interface OldIntervalToDelete {
+    about: 'old-interval-to-delete';
+    oldIntervalKey: string;
+    
+}
+
+export interface EditingFinished {
+    about: 'editing-finished';
+    changedInterval: Interval;
+}
+
+export interface ToCancelIntervalEdit {
+    about: 'to-cancel-interval-edit';
+    intervalKeyToCancelEdit: string;
 }
 
 export interface IntervalEditInterfaceState {
@@ -51,7 +68,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                                 isOnEditing: false,
                                 key: this.props.interval.key
                             };
-                            this.props.whenEditingFinished(interval);
+                            this.props.when({ about: 'editing-finished', changedInterval: interval });
                         } else null
                     }}
                 />
@@ -73,7 +90,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                                     isOnEditing: false,
                                     key: this.props.interval.key
                                 };
-                                this.props.whenEditingFinished(interval);
+                                this.props.when({ about: 'editing-finished', changedInterval: interval });
                             }
                         } else null
                     }}
@@ -83,10 +100,10 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
             <div className="icon-buttons-container">
                 <div className="arrows">
                     <button className="icon-button arrow-up" onClick={() => {
-                        this.props.when({about: 'interval-to-go-up', intervalKey: interval.key });
+                        this.props.when({ about: 'interval-to-go-up', intervalKey: interval.key });
                     }}></button>
                     <button className="icon-button arrow-down" onClick={() => {
-                        this.props.when({about: "interval-to-go-down", intervalKey: interval.key});
+                        this.props.when({ about: "interval-to-go-down", intervalKey: interval.key });
                     }}></button></div>
                 <div className="actions">
                     <button className="icon-button done"
@@ -102,20 +119,21 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                                     isOnEditing: false,
                                     key: this.props.interval.key
                                 };
-                                this.props.whenEditingFinished(interval);
+                                this.props.when({ about: 'editing-finished', changedInterval: interval });
                             } null
                         }}
                     ></button>
                     <button className="icon-button delete" onClick={() => {
-                        this.props.whenOldIntervalToDelete(interval.key);
+                        this.props.when({ about: 'old-interval-to-delete', oldIntervalKey: interval.key });
                     }}></button>
-                    <button className='cancel-button' onClick={() => {
-                        this.props.whenToCancelIntervalEdit(interval.key);
-                    }} onKeyDown={({ keyCode }) => {
-                        if (keyCode === 27) {
-                            this.props.whenToCancelIntervalEdit(interval.key);
-                        } null;
-                    }}
+                    <button className='cancel-button'
+                        onClick={() => {
+                            this.props.when({ about: 'to-cancel-interval-edit', intervalKeyToCancelEdit: interval.key });
+                        }} onKeyDown={({ keyCode }) => {
+                            if (keyCode === 27) {
+                                this.props.when({ about: 'to-cancel-interval-edit', intervalKeyToCancelEdit: interval.key });
+                            } null;
+                        }}
                     >Cancel</button>
                 </div>
             </div>

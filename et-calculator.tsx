@@ -138,20 +138,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             };
             rerender(newProps);
         },
-        whenOldIntervalToDelete: (oldIntervalKey) => {
-            const filteredIntervals = filter(oldProps.intervals,
-                otherInterval => otherInterval.key !== oldIntervalKey
-            );
-            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
-                filteredIntervals, oldProps.what, oldProps.time
-            );
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intervals: filteredIntervals,
-                departureOrArrivalTime: departureOrArrivalTime,
-            }
-            rerender(newProps);
-        },
         whenIntervalEditingStarted: (intervalKey) => {
             const editedIntervals = map(oldProps.intervals,
                 otherInterval => {
@@ -166,42 +152,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 ...oldProps,
                 intervals: editedIntervals,
             }
-            rerender(newProps);
-        },
-        whenToCancelIntervalEdit: (intervalKeyToCancelEdit) => {
-            const editedIntervals = map(oldProps.intervals,
-                otherInterval => {
-                    if (otherInterval.key === intervalKeyToCancelEdit) {
-                        return { ...otherInterval, isOnEditing: false };
-                    } else {
-                        return otherInterval;
-                    }
-                }
-            );
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intervals: editedIntervals,
-            }
-            rerender(newProps);
-        },
-        whenIntervalEditingFinished: (newInterval) => {
-            const editedIntervals = map(oldProps.intervals,
-                oldInterval => {
-                    if (oldInterval.key === newInterval.key) {
-                        return newInterval;
-                    } else {
-                        return oldInterval;
-                    }
-                }
-            );
-            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
-                editedIntervals, oldProps.what, oldProps.time
-            );
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intervals: editedIntervals,
-                departureOrArrivalTime: departureOrArrivalTime,
-            };
             rerender(newProps);
         },
         whenToSaveDataToGoogleDrive: () => {
@@ -272,6 +222,60 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     } else {
                         null;
                     }
+                    break;
+                    
+                }
+                case 'editing-finished': {
+                    const editedIntervals = map(oldProps.intervals,
+                        oldInterval => {
+                            if (oldInterval.key === concern.changedInterval.key) {
+                                return concern.changedInterval;
+                            } else {
+                                return oldInterval;
+                            }
+                        }
+                    );
+                    const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                        editedIntervals, oldProps.what, oldProps.time
+                    );
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        intervals: editedIntervals,
+                        departureOrArrivalTime: departureOrArrivalTime,
+                    };
+                    rerender(newProps);
+                    break;
+                }
+                case 'old-interval-to-delete': {
+                    const filteredIntervals = filter(oldProps.intervals,
+                        otherInterval => otherInterval.key !== concern.oldIntervalKey
+                    );
+                    const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                        filteredIntervals, oldProps.what, oldProps.time
+                    );
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        intervals: filteredIntervals,
+                        departureOrArrivalTime: departureOrArrivalTime,
+                    }
+                    rerender(newProps);
+                    break;
+                }
+                case 'to-cancel-interval-edit': {
+                    const editedIntervals = map(oldProps.intervals,
+                        otherInterval => {
+                            if (otherInterval.key === concern.intervalKeyToCancelEdit) {
+                                return { ...otherInterval, isOnEditing: false };
+                            } else {
+                                return otherInterval;
+                            }
+                        }
+                    );
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        intervals: editedIntervals,
+                    }
+                    rerender(newProps);
                     break;
                 }
             }
