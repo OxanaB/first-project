@@ -22,15 +22,17 @@ export interface CalculatorEditProps {
     
     whenIntervalEditingStarted: (intervalKey: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
-    whenToFeedback: (isToFeedBackPage: boolean) => void;
+    
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
     when: (concern: IntervalToGoUp |
         IntervalToGoDown |
         OldIntervalToDelete |
         EditingFinished |
-        ToCancelIntervalEdit) => void;
+        ToCancelIntervalEdit |
+        ToFeedBack) => void;
 }
+
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
         const intervalTimes = map(this.props.intervals, interval => { return interval.intTime });
@@ -115,7 +117,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
             </div>
             <div><a href="" onClick={(e) => {
                 e.preventDefault();
-                this.props.whenToFeedback(true);
+                this.props.when({about: 'to-feedback', isToFeedback: true});
             }}>Send us a feedback</a>
             </div>
         </div>
@@ -123,8 +125,12 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
 }
 
 export interface FeedbackProps {
-    isToFeedBackPage: boolean
-    whenToFeedback: (isToFeedBackPage: boolean) => void;
+    isToFeedBackPage: boolean;
+    when: (concern: ToFeedBack) => void;
+}
+export interface ToFeedBack {
+    about: 'to-feedback'; 
+    isToFeedback: boolean;
 }
 export class Feedback extends React.Component<FeedbackProps> {
     render() {
@@ -132,7 +138,7 @@ export class Feedback extends React.Component<FeedbackProps> {
             <a className="back-to-edit-mode"
             href="" onClick={e => {
                 e.preventDefault();
-                this.props.whenToFeedback(false);
+                this.props.when({about: 'to-feedback', isToFeedback: false});
             }}>Back to app</a>
             <iframe height='100%' width='100%'
             src="https://docs.google.com/forms/d/e/1FAIpQLSeXLB-dvqcWS7ERVnIJkV277Mnoekjc3w5wZAm4fwrSYulGdQ/viewform"/>

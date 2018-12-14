@@ -186,13 +186,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             };
             rerender(newProps);
         },
-        whenToFeedback: (isToFeedBackPage: boolean) => {
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                isToFeedBackPage: isToFeedBackPage,
-            };
-            rerender(newProps);
-        },
         when: (concern) => {
             switch(concern.about) {
                 case 'interval-to-go-up': {
@@ -278,6 +271,14 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     rerender(newProps);
                     break;
                 }
+                case 'to-feedback': {
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        isToFeedBackPage: concern.isToFeedback,
+                    };
+                    rerender(newProps);
+                    break;
+                }
             }
             
         },
@@ -291,7 +292,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         ReactDOM.render(
             oldProps.isToFeedBackPage ? 
                 <Feedback isToFeedBackPage={oldProps.isToFeedBackPage}
-                whenToFeedback={oldProps.whenToFeedback} />
+                when={newProps.when} />
                 : oldProps.isInEditMode ? 
                 <CalculatorEdit {...newProps} /> 
                 : <CalculatorView
