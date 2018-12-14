@@ -24,6 +24,7 @@ export interface CalculatorEditProps {
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
     whenButtonUpIsPushed: (intervalStringKey: string) => void;
     whenButtonDownIsPushed: (intervalStringKey: string) => void;
+    whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
     whenSwitchMode: (isInEditMode: boolean) => void;
     whenToFeedback: (isToFeedBackPage: boolean) => void;
     whenToSaveDataToGoogleDrive: () => void;
@@ -94,8 +95,11 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                             whenIntervalToGoUp={(intervalStringKey) => {
                                 this.props.whenButtonUpIsPushed(intervalStringKey);
                             }}
+                            whenToCancelIntervalEdit={(intervalKeyToCancelEdit) => {
+                                this.props.whenToCancelIntervalEdit(intervalKeyToCancelEdit);
+                            }}
                         />;
-                    } else {
+                    } else { 
                         return <div className="interval-container">
                             <div className='interval-string'>{interval.intTime + ' min ' + interval.intName}</div>
                             <ButtonEdit

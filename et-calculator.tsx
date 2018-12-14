@@ -168,6 +168,22 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             }
             rerender(newProps);
         },
+        whenToCancelIntervalEdit: (intervalKeyToCancelEdit) => {
+            const editedIntervals = map(oldProps.intervals,
+                otherInterval => {
+                    if (otherInterval.key === intervalKeyToCancelEdit) {
+                        return { ...otherInterval, isOnEditing: false };
+                    } else {
+                        return otherInterval;
+                    }
+                }
+            );
+            const newProps: CalculatorEditProps = {
+                ...oldProps,
+                intervals: editedIntervals,
+            }
+            rerender(newProps);
+        },
         whenIntervalEditingFinished: (newInterval) => {
             const editedIntervals = map(oldProps.intervals,
                 oldInterval => {

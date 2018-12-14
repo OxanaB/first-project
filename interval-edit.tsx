@@ -7,7 +7,7 @@ export interface IntervalEditInterfaceProps {
     whenIntervalToGoUp: (intervalToUpKey: string) => void;
     whenIntervalToGoDown: (intervalToDownKey: string) => void;
     whenOldIntervalToDelete: (oldIntervalKey: string) => void;
-
+    whenToCancelIntervalEdit: (intervalKeyToCancelEdit: string) => void;
 }
 export interface IntervalEditInterfaceState {
     intNameChanged: string;
@@ -68,7 +68,7 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                         } else null
                     }}
                 />
-                {this.state.isTimeValid ? null : <div>Problem</div>}
+                {this.state.isTimeValid ? null : <div><i>Enter number in munites</i></div>}
             </div>
             <div className="icon-buttons-container">
                 <div className="arrows">
@@ -98,7 +98,16 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
                     ></button>
                     <button className="icon-button delete" onClick={() => {
                         this.props.whenOldIntervalToDelete(interval.key);
-                    }}></button></div>
+                    }}></button>
+                    <button className='cancel-button' onClick={() => {
+                        this.props.whenToCancelIntervalEdit(interval.key);
+                    }} onKeyDown={({ keyCode }) => {
+                        if (keyCode === 27) {
+                            this.props.whenToCancelIntervalEdit(interval.key);
+                        } null;
+                    }}
+                    >Cancel</button>
+                </div>
             </div>
         </div>
     }
