@@ -7,7 +7,7 @@ import { Interval, intervalsExample } from "./et-arrays";
 import { downloadFile } from "./google-drive-utils";
 import { gapi } from "./gapi";
 
-var API_KEY = 'AIzaSyDNWPh_5wk5eCgH5O3CQ01RdNEDkT8D5gQ';
+var API_KEY = 'AIzaSyBQvyb_TAkXJi2K80gb60xlC5JvdAKurpg';
 var CLIENT_ID = '52025529863-17d1jb3g1geb75umat6ecfkcq0c4383n.apps.googleusercontent.com';
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 var SCOPES = 'https://www.googleapis.com/auth/drive';
@@ -300,11 +300,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 : oldProps.isInEditMode ?
                     <CalculatorEdit {...newProps} />
                     : <CalculatorView
-                        what={oldProps.what}
-                        departureOrArrivalTime={oldProps.departureOrArrivalTime}
-                        intervals={oldProps.intervals}
-                        time={oldProps.time}
-                        when={newProps.when}
+                        {...newProps}
                     />,
             rootElement
         );
