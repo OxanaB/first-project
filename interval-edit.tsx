@@ -23,7 +23,7 @@ export interface IntervalToGoDown {
 export interface OldIntervalToDelete {
     about: 'old-interval-to-delete';
     oldIntervalKey: string;
-    
+
 }
 
 export interface EditingFinished {
@@ -142,14 +142,23 @@ export class IntervalEditInterface extends React.Component<IntervalEditInterface
 }
 export interface ButtonEditProps {
     interval: Interval;
-    whenOldIntervalToEdit: (intervalToEditKey: string) => void;
+    when: (concern: IntervalEditingStarted) => void;
 }
+
+export interface IntervalEditingStarted {
+    about: 'interval-editing-started';
+    intervalKey: string;
+}
+
 export class ButtonEdit extends React.Component<ButtonEditProps> {
     render() {
         const interval = this.props.interval;
         return <>
             <button className="button-edit" onClick={() => {
-                this.props.whenOldIntervalToEdit(interval.key);
+                this.props.when({
+                    about: 'interval-editing-started',
+                    intervalKey: interval.key
+                });
             }}></button></>
     }
 }

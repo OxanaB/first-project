@@ -58,9 +58,9 @@ async function whenSignedIntoGoogleForSure() {
     // });
 }
 
-function whenIsNotSingedIn(){
+function whenIsNotSingedIn() {
     const intervals = intervalsExample;
-    TimeCalculator(false,intervals)
+    TimeCalculator(false, intervals)
 }
 
 function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
@@ -125,22 +125,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             };
             rerender(newProps);
         },
-        whenIntervalEditingStarted: (intervalKey) => {
-            const editedIntervals = map(oldProps.intervals,
-                otherInterval => {
-                    if (otherInterval.key === intervalKey) {
-                        return { ...otherInterval, isOnEditing: true };
-                    } else {
-                        return otherInterval;
-                    }
-                }
-            );
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                intervals: editedIntervals,
-            }
-            rerender(newProps);
-        },
         whenToSaveDataToGoogleDrive: () => {
             const text = JSON.stringify(oldProps.intervals);
             console.log(text);
@@ -167,7 +151,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
             });
         },
         when: (concern) => {
-            switch(concern.about) {
+            switch (concern.about) {
                 case 'time-is-entered': {
                     const departureOrArrivalTime = calculateDepartureOrArrivalTime(
                         oldProps.intervals, concern.what, concern.enteredTime
@@ -183,10 +167,27 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 };
                 case 'switch-mode': {
                     const newProps: CalculatorEditProps = {
-                    ...oldProps,
-                    isInEditMode: concern.isInEditMode,
+                        ...oldProps,
+                        isInEditMode: concern.isInEditMode,
+                    };
+                    rerender(newProps);
+                    break
                 };
-                rerender(newProps);
+                case 'interval-editing-started': {
+                    const editedIntervals = map(oldProps.intervals,
+                        otherInterval => {
+                            if (otherInterval.key === concern.intervalKey) {
+                                return { ...otherInterval, isOnEditing: true };
+                            } else {
+                                return otherInterval;
+                            }
+                        }
+                    );
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        intervals: editedIntervals,
+                    }
+                    rerender(newProps);
                     break
                 };
                 case 'interval-to-go-up': {
@@ -217,7 +218,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                         null;
                     }
                     break;
-                    
+
                 }
                 case 'editing-finished': {
                     const editedIntervals = map(oldProps.intervals,
@@ -281,7 +282,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     break;
                 }
             }
-            
+
         },
     };
 
@@ -291,18 +292,18 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         const rootElement = document.getElementById('root');
         oldProps = newProps;
         ReactDOM.render(
-            oldProps.isToFeedBackPage ? 
+            oldProps.isToFeedBackPage ?
                 <Feedback isToFeedBackPage={oldProps.isToFeedBackPage}
-                when={newProps.when} />
-                : oldProps.isInEditMode ? 
-                <CalculatorEdit {...newProps} /> 
-                : <CalculatorView
-                    what={oldProps.what}
-                    departureOrArrivalTime={oldProps.departureOrArrivalTime}
-                    intervals={oldProps.intervals}
-                    time={oldProps.time}
-                    when={newProps.when}
-                />,
+                    when={newProps.when} />
+                : oldProps.isInEditMode ?
+                    <CalculatorEdit {...newProps} />
+                    : <CalculatorView
+                        what={oldProps.what}
+                        departureOrArrivalTime={oldProps.departureOrArrivalTime}
+                        intervals={oldProps.intervals}
+                        time={oldProps.time}
+                        when={newProps.when}
+                    />,
             rootElement
         );
     }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { map, sum, getTodayDate, formatDateTime } from "./utils";
 import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
-import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown, OldIntervalToDelete, EditingFinished, ToCancelIntervalEdit } from "./interval-edit";
+import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown, OldIntervalToDelete, EditingFinished, ToCancelIntervalEdit, IntervalEditingStarted } from "./interval-edit";
 import { Interval } from "./et-arrays";
 import { Time, TimeIsEntered } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
@@ -21,12 +21,10 @@ export interface CalculatorEditProps {
     departureOrArrivalTime: Date;
 
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
-
-    whenIntervalEditingStarted: (intervalKey: string) => void;
-
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
-    when: (concern: IntervalToGoUp |
+    when: (concern: IntervalEditingStarted |
+        IntervalToGoUp |
         IntervalToGoDown |
         OldIntervalToDelete |
         EditingFinished |
@@ -66,7 +64,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
             <header><h1>Time duration calculator</h1></header>
             <div className="time">
                 <Time time={getTodayDate()} when={pair => {
-                    
+
                     this.props.when({
                         about: 'time-is-entered',
                         enteredTime: pair.enteredTime,
@@ -105,8 +103,11 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                             <div className='interval-string'>{interval.intTime + ' min ' + interval.intName}</div>
                             <ButtonEdit
                                 interval={interval}
-                                whenOldIntervalToEdit={(intervalKey) => {
-                                    this.props.whenIntervalEditingStarted(intervalKey);
+                                when={intervalKey => {
+                                    this.props.when({
+                                        about: 'interval-editing-started',
+                                        intervalKey: interval.key
+                                    });
                                 }}
                             />
                         </div>
