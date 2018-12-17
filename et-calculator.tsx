@@ -118,19 +118,6 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
-        whenTimeIsEntered: (newTime, what) => {
-
-            const departureOrArrivalTime = calculateDepartureOrArrivalTime(
-                oldProps.intervals, what, newTime
-            );
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                time: newTime,
-                what: what,
-                departureOrArrivalTime: departureOrArrivalTime,
-            };
-            rerender(newProps);
-        },
         whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => {
             const newProps: CalculatorEditProps = {
                 ...oldProps,
@@ -181,6 +168,19 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         },
         when: (concern) => {
             switch(concern.about) {
+                case 'time-is-entered': {
+                    const departureOrArrivalTime = calculateDepartureOrArrivalTime(
+                        oldProps.intervals, concern.what, concern.enteredTime
+                    );
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        time: concern.enteredTime,
+                        what: concern.what,
+                        departureOrArrivalTime: departureOrArrivalTime,
+                    };
+                    rerender(newProps);
+                    break;
+                };
                 case 'switch-mode': {
                     const newProps: CalculatorEditProps = {
                     ...oldProps,

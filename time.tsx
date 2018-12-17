@@ -2,7 +2,12 @@ import * as React from "react";
 
 export interface TimeProps {
     time: Date;
-    whenTimeIsEntered: (enteredTime: Date, what: string) => void;
+    when: (concern: TimeIsEntered) => void;
+}
+export interface TimeIsEntered {
+    about: 'time-is-entered';
+    enteredTime: Date;
+    what: string;
 }
 export interface TimeState {
     timeText: string;
@@ -36,7 +41,10 @@ export class Time extends React.Component<TimeProps, TimeState> {
                             const now = new Date();
                             now.setHours(hours);
                             now.setMinutes(minutes);
-                            return this.props.whenTimeIsEntered(now, this.state.what);
+                            return this.props.when({
+                                about: 'time-is-entered',
+                                enteredTime: now, what: this.state.what
+                            });
                         }
                     } else {
                         const matched = /(\d{1,2}):?(\d{1,2})/.exec(time);
@@ -47,7 +55,12 @@ export class Time extends React.Component<TimeProps, TimeState> {
                             const now = new Date();
                             now.setHours(hours);
                             now.setMinutes(minutes);
-                            return this.props.whenTimeIsEntered(now, this.state.what);
+                            return this.props.when({
+                                about: 'time-is-entered',
+                                enteredTime: now,
+                                what: this.state.what
+                            });
+
                         }
                     }
                 }}
@@ -63,7 +76,11 @@ export class Time extends React.Component<TimeProps, TimeState> {
                                 const now = new Date();
                                 now.setHours(hours);
                                 now.setMinutes(minutes);
-                                return this.props.whenTimeIsEntered(now, this.state.what);
+                                return this.props.when({
+                                    about: 'time-is-entered',
+                                    enteredTime: now,
+                                    what: this.state.what
+                                });
                             } else { return null }
                         }
                         else {
@@ -75,7 +92,11 @@ export class Time extends React.Component<TimeProps, TimeState> {
                                 const now = new Date();
                                 now.setHours(hours);
                                 now.setMinutes(minutes);
-                                return this.props.whenTimeIsEntered(now, this.state.what);
+                                return this.props.when({
+                                    about: 'time-is-entered',
+                                    enteredTime: now,
+                                    what: this.state.what
+                                });
                             };
                         }
                     }
@@ -93,7 +114,11 @@ export class Time extends React.Component<TimeProps, TimeState> {
                             const now = new Date();
                             now.setHours(hours);
                             now.setMinutes(minutes);
-                            return this.props.whenTimeIsEntered(now, this.state.what);
+                            return this.props.when({
+                                about: 'time-is-entered',
+                                enteredTime: now,
+                                what: this.state.what
+                            });
                         } else { return null }
                     }
                     else {
@@ -105,7 +130,12 @@ export class Time extends React.Component<TimeProps, TimeState> {
                             const now = new Date();
                             now.setHours(hours);
                             now.setMinutes(minutes);
-                            return this.props.whenTimeIsEntered(now, this.state.what);
+                            return this.props.when({
+                                about: 'time-is-entered',
+                                enteredTime: now,
+                                what: this.state.what
+                            });
+
                         };
                     }
                 }}></button>

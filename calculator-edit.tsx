@@ -3,9 +3,10 @@ import { map, sum, getTodayDate, formatDateTime } from "./utils";
 import { IntervalNewAddProps, IntervalNewAdd } from "./interval-new-add";
 import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown, OldIntervalToDelete, EditingFinished, ToCancelIntervalEdit } from "./interval-edit";
 import { Interval } from "./et-arrays";
-import { Time } from "./time";
+import { Time, TimeIsEntered } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
 import { SwitchMode } from "./calculator-view";
+import { time } from "console";
 
 
 export interface CalculatorEditProps {
@@ -18,11 +19,11 @@ export interface CalculatorEditProps {
     time: Date;
     what: string;
     departureOrArrivalTime: Date;
-    whenTimeIsEntered: (enteredTime: Date, what: string) => void;
+
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
-    
+
     whenIntervalEditingStarted: (intervalKey: string) => void;
-    
+
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
     when: (concern: IntervalToGoUp |
@@ -30,8 +31,9 @@ export interface CalculatorEditProps {
         OldIntervalToDelete |
         EditingFinished |
         ToCancelIntervalEdit |
-        ToFeedBack | 
-        SwitchMode) => void;
+        ToFeedBack |
+        SwitchMode |
+        TimeIsEntered) => void;
 }
 
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
@@ -57,14 +59,19 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <div className="link-to-next-page">
                     <a href="" onClick={e => {
                         e.preventDefault();
-                        this.props.when({about: 'switch-mode', isInEditMode: false});
+                        this.props.when({ about: 'switch-mode', isInEditMode: false });
                     }}>View mode</a>
                 </div></div>
 
             <header><h1>Time duration calculator</h1></header>
             <div className="time">
-                <Time time={getTodayDate()} whenTimeIsEntered={(time, what) => {
-                    this.props.whenTimeIsEntered(time, what);
+                <Time time={getTodayDate()} when={pair => {
+                    
+                    this.props.when({
+                        about: 'time-is-entered',
+                        enteredTime: pair.enteredTime,
+                        what: pair.what
+                    });
                 }} />
             </div>
             <div className="menu-edit-interval">
@@ -88,12 +95,12 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                         return <IntervalEditInterface
                             interval={interval}
                             when={(concern) => {
-                                
+
                                 this.props.when(concern);
-                            
+
                             }}
                         />;
-                    } else { 
+                    } else {
                         return <div className="interval-container">
                             <div className='interval-string'>{interval.intTime + ' min ' + interval.intName}</div>
                             <ButtonEdit
@@ -118,7 +125,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
             </div>
             <div><a href="" onClick={(e) => {
                 e.preventDefault();
-                this.props.when({about: 'to-feedback', isToFeedback: true});
+                this.props.when({ about: 'to-feedback', isToFeedback: true });
             }}>Send us a feedback</a>
             </div>
         </div>
@@ -130,19 +137,19 @@ export interface FeedbackProps {
     when: (concern: ToFeedBack) => void;
 }
 export interface ToFeedBack {
-    about: 'to-feedback'; 
+    about: 'to-feedback';
     isToFeedback: boolean;
 }
 export class Feedback extends React.Component<FeedbackProps> {
     render() {
         return <div>
             <a className="back-to-edit-mode"
-            href="" onClick={e => {
-                e.preventDefault();
-                this.props.when({about: 'to-feedback', isToFeedback: false});
-            }}>Back to app</a>
+                href="" onClick={e => {
+                    e.preventDefault();
+                    this.props.when({ about: 'to-feedback', isToFeedback: false });
+                }}>Back to app</a>
             <iframe height='100%' width='100%'
-            src="https://docs.google.com/forms/d/e/1FAIpQLSeXLB-dvqcWS7ERVnIJkV277Mnoekjc3w5wZAm4fwrSYulGdQ/viewform"/>
+                src="https://docs.google.com/forms/d/e/1FAIpQLSeXLB-dvqcWS7ERVnIJkV277Mnoekjc3w5wZAm4fwrSYulGdQ/viewform" />
         </div>
-    } 
+    }
 }
