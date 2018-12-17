@@ -179,15 +179,16 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                 }
             });
         },
-        whenSwitchMode: (isInEditMode: boolean) => {
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                isInEditMode: isInEditMode,
-            };
-            rerender(newProps);
-        },
         when: (concern) => {
             switch(concern.about) {
+                case 'switch-mode': {
+                    const newProps: CalculatorEditProps = {
+                    ...oldProps,
+                    isInEditMode: concern.isInEditMode,
+                };
+                rerender(newProps);
+                    break
+                };
                 case 'interval-to-go-up': {
                     const index = oldProps.intervals.findIndex(interval => interval.key === concern.intervalKey);
                     if (index !== 0) {
@@ -300,7 +301,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     departureOrArrivalTime={oldProps.departureOrArrivalTime}
                     intervals={oldProps.intervals}
                     time={oldProps.time}
-                    whenSwitchMode={oldProps.whenSwitchMode}
+                    when={newProps.when}
                 />,
             rootElement
         );

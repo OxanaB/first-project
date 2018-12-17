@@ -7,8 +7,14 @@ export interface CalculatorViewProps {
     time: Date;
     departureOrArrivalTime: Date;
     what: string;
-    whenSwitchMode: (isInEditMode: boolean) => void;
+    when: (concern: SwitchMode) => void;
 }
+
+export interface SwitchMode {
+    about: 'switch-mode';
+    isInEditMode: boolean;
+}
+
 export class CalculatorView extends React.Component<CalculatorViewProps> {
     render() {
         return <>
@@ -24,7 +30,7 @@ export class CalculatorView extends React.Component<CalculatorViewProps> {
                     <div className="link-to-edit-mode">
                         <a href="" onClick={e => {
                             e.preventDefault();
-                            this.props.whenSwitchMode(true);
+                            this.props.when({about: 'switch-mode', isInEditMode: true});
                         }}>back to edit</a>
                     </div>
             </div>

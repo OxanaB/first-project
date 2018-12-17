@@ -5,6 +5,7 @@ import { IntervalEditInterface, ButtonEdit, IntervalToGoUp, IntervalToGoDown, Ol
 import { Interval } from "./et-arrays";
 import { Time } from "./time";
 import { SignInOutButtons, SignInOutButtonsProps } from "./sing-in-out";
+import { SwitchMode } from "./calculator-view";
 
 
 export interface CalculatorEditProps {
@@ -21,7 +22,6 @@ export interface CalculatorEditProps {
     whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
     
     whenIntervalEditingStarted: (intervalKey: string) => void;
-    whenSwitchMode: (isInEditMode: boolean) => void;
     
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
@@ -30,7 +30,8 @@ export interface CalculatorEditProps {
         OldIntervalToDelete |
         EditingFinished |
         ToCancelIntervalEdit |
-        ToFeedBack) => void;
+        ToFeedBack | 
+        SwitchMode) => void;
 }
 
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
@@ -56,7 +57,7 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 <div className="link-to-next-page">
                     <a href="" onClick={e => {
                         e.preventDefault();
-                        this.props.whenSwitchMode(false);
+                        this.props.when({about: 'switch-mode', isInEditMode: false});
                     }}>View mode</a>
                 </div></div>
 
