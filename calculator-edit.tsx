@@ -20,10 +20,11 @@ export interface CalculatorEditProps {
     what: string;
     departureOrArrivalTime: Date;
 
-    whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => void;
     whenToSaveDataToGoogleDrive: () => void;
     saveToDrive: () => void;
-    when: (concern: IntervalEditingStarted |
+    when: (concern: 
+        ShowNewIntervalInterface |
+        IntervalEditingStarted |
         IntervalToGoUp |
         IntervalToGoDown |
         OldIntervalToDelete |
@@ -33,7 +34,10 @@ export interface CalculatorEditProps {
         SwitchMode |
         TimeIsEntered) => void;
 }
-
+export interface ShowNewIntervalInterface {
+    about: 'show-new-interval-interface',
+    isNewIntervalToAdd: boolean
+}
 export class CalculatorEdit extends React.Component<CalculatorEditProps> {
     render() {
         const intervalTimes = map(this.props.intervals, interval => { return interval.intTime });
@@ -82,10 +86,14 @@ export class CalculatorEdit extends React.Component<CalculatorEditProps> {
                 {
                     this.props.isNewIntervalToAdd
                         ? <button onClick={() => {
-                            this.props.whenShowNewIntervalInterface(false);
+                            this.props.when({
+                                about: 'show-new-interval-interface', 
+                                isNewIntervalToAdd: false});
                         }}>Hide</button>
                         : <button onClick={() => {
-                            this.props.whenShowNewIntervalInterface(true);
+                            this.props.when({
+                                about: 'show-new-interval-interface',
+                                isNewIntervalToAdd: true});
                         }}>Add new</button>
                 }
                 {map(this.props.intervals, interval => {

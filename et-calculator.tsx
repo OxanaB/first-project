@@ -118,13 +118,7 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
         time: new Date(),
         what: 'Departure time',
         departureOrArrivalTime: new Date(),
-        whenShowNewIntervalInterface: (isNewIntervalToAdd: boolean) => {
-            const newProps: CalculatorEditProps = {
-                ...oldProps,
-                isNewIntervalToAdd: isNewIntervalToAdd,
-            };
-            rerender(newProps);
-        },
+        
         whenToSaveDataToGoogleDrive: () => {
             const text = JSON.stringify(oldProps.intervals);
             console.log(text);
@@ -172,6 +166,14 @@ function TimeCalculator(isSignedIn: boolean, intervals: Interval[]) {
                     };
                     rerender(newProps);
                     break
+                };
+                case 'show-new-interval-interface': {
+                    const newProps: CalculatorEditProps = {
+                        ...oldProps,
+                        isNewIntervalToAdd: concern.isNewIntervalToAdd,
+                    };
+                    rerender(newProps);
+                    break;
                 };
                 case 'interval-editing-started': {
                     const editedIntervals = map(oldProps.intervals,
